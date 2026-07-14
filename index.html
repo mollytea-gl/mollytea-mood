@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#ede4d2" />
+  <title>Molly Tea｜Today's Tea Mood</title>
+  <style>
+    :root {
+      --paper:#efe6d5;
+      --paper-soft:#f8f3e9;
+      --paper-deep:#dfd1ba;
+      --ink:#20231f;
+      --muted:#74736c;
+      --jade:#526857;
+      --jade-deep:#2f4035;
+      --gold:#b89c63;
+      --coral:#d96f55;
+      --coral-soft:#f5d9ce;
+      --sun:#e8b95f;
+      --line:rgba(47,64,53,.14);
+      --shadow:0 24px 70px rgba(52,48,39,.16);
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      min-height:100vh;
+      color:var(--ink);
+      font-family:"Noto Serif SC","Songti SC","STSong","Microsoft YaHei",serif;
+      background:
+        radial-gradient(circle at 90% 8%,rgba(217,111,85,.18),transparent 24%),
+        radial-gradient(circle at 8% 88%,rgba(232,185,95,.18),transparent 26%),
+        radial-gradient(circle at 18% 16%,rgba(255,255,255,.82) 0 1px,transparent 2px),
+        radial-gradient(circle at 82% 68%,rgba(89,79,58,.06) 0 1px,transparent 2px),
+        repeating-linear-gradient(9deg,rgba(92,80,55,.018) 0 1px,transparent 1px 8px),
+        var(--paper);
+    }
+    button{font:inherit}
+    .page{width:min(980px,calc(100% - 24px));margin:0 auto;padding:24px 0 48px}
+    .topbar{display:flex;justify-content:space-between;align-items:center;gap:18px;margin-bottom:16px}
+    .logo-wrap{display:flex;align-items:center}
+    .logo{width:min(245px,52vw);height:auto;display:block}
+    .lang-switch{
+      display:inline-flex;gap:4px;padding:4px;border:1px solid var(--line);
+      background:rgba(255,250,242,.72);border-radius:999px;backdrop-filter:blur(10px);
+    }
+    .lang-btn{
+      border:0;background:transparent;color:var(--muted);cursor:pointer;
+      border-radius:999px;padding:8px 12px;font:700 12px Arial,sans-serif;
+    }
+    .lang-btn.active{background:var(--jade-deep);color:white}
+    .shell{
+      position:relative;overflow:hidden;border-radius:30px;
+      background:linear-gradient(145deg,rgba(255,252,244,.9),rgba(244,238,224,.84));border:1px solid rgba(255,255,255,.76);
+      box-shadow:var(--shadow);backdrop-filter:blur(12px);
+    }
+    .shell::before{
+      content:"";position:absolute;inset:0;pointer-events:none;opacity:.22;
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220' viewBox='0 0 220 220'%3E%3Cg fill='none' stroke='%23526857' stroke-opacity='.18' stroke-width='1'%3E%3Cpath d='M45 170c24-34 39-69 42-117M69 119c-18-8-29-21-34-39 20 2 34 13 41 32M88 92c12-16 28-25 49-26-6 19-20 32-46 39M150 196c-9-31-6-63 9-96M157 145c-18-3-32-13-40-30 20-2 36 5 46 23M166 121c10-17 25-27 45-31-1 20-15 35-40 45'/%3E%3C/g%3E%3C/svg%3E");
+    }
+    .content{position:relative;padding:36px clamp(18px,5vw,62px) 44px}
+    .intro{max-width:680px;margin:0 auto;text-align:center;padding:28px 0 18px}
+    .eyebrow{display:inline-flex;padding:7px 13px;border-radius:999px;background:var(--coral-soft);font:700 12px Arial,sans-serif;letter-spacing:.18em;color:#8f3e2d;text-transform:uppercase}
+    .intro h1{font-size:clamp(38px,6vw,68px);line-height:1.08;font-weight:500;margin:16px 0 18px;letter-spacing:.02em}
+    .subtitle{max-width:600px;margin:0 auto 28px;color:var(--muted);line-height:1.9;font-size:15px}
+    .primary{
+      border:0;border-radius:999px;padding:14px 30px;cursor:pointer;
+      background:linear-gradient(135deg,var(--jade-deep),var(--jade));color:#fffdf6;font:700 14px Arial,"Microsoft YaHei",sans-serif;
+      box-shadow:0 12px 26px rgba(47,64,53,.22);transition:.2s ease;
+    }
+    .primary:hover{transform:translateY(-2px)}
+    .small-note{font-size:12px;color:#918d82;margin-top:14px}
+    .hidden{display:none!important}
+
+    .quiz-head{display:flex;align-items:center;gap:16px;margin-bottom:26px}
+    .step{font:700 12px Arial,sans-serif;letter-spacing:.12em;color:var(--jade)}
+    .progress{flex:1;height:7px;background:rgba(82,104,87,.12);border-radius:99px;overflow:hidden}
+    .progress span{display:block;height:100%;background:var(--jade);border-radius:99px;transition:width .35s ease}
+    .question-title{text-align:center;font-size:clamp(26px,4vw,40px);font-weight:500;line-height:1.45;margin:10px auto 28px;max-width:760px}
+    .options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
+    .option{
+      min-height:72px;border:1px solid var(--line);border-radius:18px;
+      background:linear-gradient(135deg,rgba(255,253,247,.92),rgba(247,237,218,.76));color:var(--ink);cursor:pointer;text-align:left;
+      padding:17px 18px;display:flex;align-items:center;gap:13px;transition:.18s ease;
+    }
+    .option:hover{transform:translateY(-2px);border-color:rgba(82,104,87,.45);background:#fffdf8}
+    .option.selected{background:linear-gradient(135deg,var(--jade-deep),var(--jade));color:white;border-color:var(--jade);box-shadow:0 10px 24px rgba(82,104,87,.2)}
+    .emoji{font-size:22px;flex:0 0 28px;text-align:center}
+    .option-text{font-size:16px;line-height:1.5}
+    .quiz-actions{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:24px}
+    .ghost{border:0;background:transparent;color:var(--muted);cursor:pointer;padding:10px 4px}
+    .next:disabled{opacity:.4;cursor:not-allowed;transform:none}
+
+    .result-page{max-width:760px;margin:0 auto}
+    .result-card{
+      overflow:hidden;border-radius:28px;background:rgba(255,255,255,.78);
+      border:1px solid rgba(47,64,53,.13);box-shadow:0 18px 50px rgba(48,43,34,.12);
+    }
+    .result-top{text-align:center;padding:34px 26px 10px}
+    .result-kicker{font:700 12px Arial,sans-serif;letter-spacing:.18em;color:var(--jade);text-transform:uppercase}
+    .result-title{font-size:clamp(38px,7vw,70px);line-height:1.05;font-weight:500;margin:12px 0 4px}
+    .result-cn{font-size:clamp(16px,2vw,21px);color:var(--gold);font-weight:700;letter-spacing:.08em}
+    .drink-stage{
+      position:relative;min-height:330px;display:grid;place-items:center;padding:20px;
+      background:
+        radial-gradient(circle at center,rgba(221,208,181,.62),transparent 58%),
+        linear-gradient(to bottom,rgba(255,255,255,0),rgba(246,241,231,.9));
+    }
+    .drink-stage::before,.drink-stage::after{
+      content:"";position:absolute;width:125px;height:1px;background:var(--line);top:50%;
+    }
+    .drink-stage::before{left:5%} .drink-stage::after{right:5%}
+    .drink-art{width:min(285px,72vw);filter:drop-shadow(0 22px 20px rgba(47,44,36,.16))}
+    .diagnosis{padding:28px clamp(24px,5vw,54px) 30px;text-align:center;border-top:1px solid var(--line)}
+    .diagnosis-title{font:700 12px Arial,sans-serif;letter-spacing:.16em;color:var(--jade);text-transform:uppercase;margin-bottom:12px}
+    .result-desc{margin:0;color:#5f605a;line-height:1.95;font-size:16px}
+    .recommend-card{display:grid;grid-template-columns:1.08fr .92fr;gap:14px;margin-top:16px}
+    .panel{background:rgba(255,253,248,.78);border:1px solid var(--line);border-radius:20px;padding:20px}
+    .panel h3{font:700 14px Arial,"Microsoft YaHei",sans-serif;color:var(--jade-deep);margin:0 0 12px}
+    .drink-row{display:flex;gap:12px;padding:10px 0;border-top:1px dashed var(--line)}
+    .drink-row:first-of-type{border-top:0}
+    .drink-no{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:var(--paper-deep);font:700 12px Arial;color:var(--jade-deep);flex:0 0 28px}
+    .drink-row strong{display:block;font-size:15px;line-height:1.45}
+    .drink-row span{font-size:13px;color:var(--muted)}
+    .carousel-wrap{position:relative}
+    .drink-carousel{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x proximity;padding:4px 2px 14px;scrollbar-color:var(--coral) transparent;scrollbar-width:thin;touch-action:pan-x pan-y;overscroll-behavior-x:contain;cursor:grab;-webkit-overflow-scrolling:touch}
+    .drink-carousel.dragging{cursor:grabbing;scroll-snap-type:none;user-select:none}
+    .carousel-controls{display:flex;justify-content:flex-end;gap:8px;margin:0 0 10px}
+    .carousel-btn{width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:#fffaf0;color:var(--jade-deep);cursor:pointer;font-size:18px;box-shadow:0 6px 16px rgba(47,64,53,.09)}
+    .carousel-btn:hover{background:var(--coral-soft);color:#8f3e2d}
+    .swipe-hint{margin-right:auto;align-self:center;color:var(--muted);font-size:12px}
+    .drink-card{position:relative;flex:0 0 min(260px,82vw);height:230px;scroll-snap-align:start;perspective:900px;cursor:pointer;border:0;background:transparent;padding:0;text-align:left}
+    .drink-card-inner{position:absolute;inset:0;transition:transform .5s;transform-style:preserve-3d}
+    .drink-card.flipped .drink-card-inner{transform:rotateY(180deg)}
+    .drink-face{position:absolute;inset:0;backface-visibility:hidden;border:1px solid rgba(217,111,85,.2);border-radius:18px;padding:20px;background:linear-gradient(155deg,#fffdf8,#f7ead8);box-shadow:0 10px 24px rgba(47,64,53,.09);display:flex;flex-direction:column}
+    .drink-back{transform:rotateY(180deg);background:var(--jade-deep);color:#fffdf6}
+    .card-index{font:700 11px Arial,sans-serif;color:var(--gold);letter-spacing:.14em}
+    .drink-face strong{font-size:18px;line-height:1.45;margin:18px 0 6px}
+    .drink-face small{color:var(--muted);line-height:1.5}
+    .drink-back small{color:rgba(255,255,255,.72)}
+    .tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:auto}
+    .tag{font:700 11px Arial,"Microsoft YaHei",sans-serif;padding:6px 9px;border-radius:99px;background:var(--paper-deep);color:var(--jade-deep)}
+    .flip-hint{margin-top:auto;font-size:11px;color:rgba(255,255,255,.72)}
+    .coupon{background:linear-gradient(145deg,var(--jade-deep),#465f4e 60%,#7b5739);color:white;display:flex;flex-direction:column;justify-content:center;position:relative;overflow:hidden}
+    .coupon::after{content:"85";position:absolute;right:-8px;bottom:-34px;font:700 112px/1 Arial,sans-serif;color:rgba(255,255,255,.06);pointer-events:none}
+    .coupon h3{color:white}
+    .coupon-text{font-size:19px;line-height:1.65;font-weight:700}
+    .benefit-link{
+      display:inline-flex;justify-content:center;align-items:center;margin-top:18px;padding:11px 18px;
+      border-radius:999px;background:#fffaf0;color:var(--jade-deep);text-decoration:none;
+      font:700 13px Arial,"Microsoft YaHei",sans-serif;
+    }
+    .benefit-link.disabled{opacity:1;pointer-events:auto;background:var(--coral-soft);color:#7e392b}
+    .restart-wrap{text-align:center;margin-top:22px}
+    .footer{text-align:center;color:#8f8a7f;font:11px Arial,sans-serif;letter-spacing:.12em;margin-top:18px}
+
+    @media(max-width:700px){
+      .page{width:100%;padding:8px 8px 24px}
+      .topbar{align-items:center;margin:0 5px 10px}
+      .logo{width:min(180px,48vw)}
+      .shell{border-radius:22px}
+      .content{padding:22px 12px 28px}
+      .intro{padding:36px 8px 24px}
+      .intro h1{font-size:clamp(34px,11vw,52px)}
+      .question-title{font-size:clamp(24px,7vw,32px);margin-bottom:20px}
+      .options{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+      .option{min-height:104px;padding:15px 10px;flex-direction:column;justify-content:center;text-align:center;gap:8px}
+      .option-text{font-size:14px}
+      .recommend-card{grid-template-columns:1fr}
+      .panel{padding:16px;border-radius:18px}
+      .drink-stage{min-height:230px;padding:8px}
+      .drink-art{width:min(220px,62vw)}
+      .drink-card{flex-basis:82vw;height:238px}
+      .carousel-controls{position:sticky;left:0}
+      .coupon{min-height:210px}
+      .benefit-link{min-height:48px}
+      .drink-stage::before,.drink-stage::after{width:58px}
+      .result-top{padding-top:28px}
+    }
+    @media(max-width:380px){.options{grid-template-columns:1fr}.option{min-height:74px;flex-direction:row;text-align:left;justify-content:flex-start}.drink-card{flex-basis:86vw}}
+  </style>
+</head>
+<body>
+  <main class="page">
+    <div class="topbar">
+      <div class="logo-wrap"><img class="logo" src="data:image/png;base64,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" alt="MOLLY TEA"></div>
+      <div class="lang-switch" aria-label="Language">
+        <button class="lang-btn active" data-lang="zh">中文</button>
+        <button class="lang-btn" data-lang="en">EN</button>
+        <button class="lang-btn" data-lang="th">ไทย</button>
+      </div>
+    </div>
+
+    <section class="shell">
+      <div class="content">
+        <section id="intro" class="intro">
+          <div id="introEyebrow" class="eyebrow">✦ Find Your Tea Personality</div>
+          <h1 id="introTitle">你的奶茶人格<br>是哪一种？</h1>
+          <p id="introSubtitle" class="subtitle">4 道轻松选择题，读懂你的口味偏好与今日心情，<br>找到最适合你的 Molly Tea 系列饮品。</p>
+          <button id="startBtn" class="primary">开始测试</button>
+          <div id="introNote" class="small-note">约 30 秒完成 · 共 5 种人格</div>
+        </section>
+
+        <section id="quiz" class="hidden">
+          <div class="quiz-head">
+            <div id="stepText" class="step">01 / 04</div>
+            <div class="progress"><span id="progressBar" style="width:25%"></span></div>
+          </div>
+          <div id="questionArea"></div>
+          <div class="quiz-actions">
+            <button id="prevBtn" class="ghost">← 上一题</button>
+            <button id="nextBtn" class="primary next" disabled>下一题 →</button>
+          </div>
+        </section>
+
+        <section id="result" class="result-page hidden">
+          <div class="result-card">
+            <div class="result-top">
+              <div id="resultLabel" class="result-kicker">Your Tea Personality</div>
+              <div id="resultName" class="result-title">Floral Lover</div>
+              <div id="resultCn" class="result-cn">花香治愈派</div>
+            </div>
+            <div class="drink-stage">
+              <div id="drinkArt" class="drink-art"></div>
+            </div>
+            <div class="diagnosis">
+              <div id="diagnosisTitle" class="diagnosis-title">Personality Reading</div>
+              <p id="resultDesc" class="result-desc"></p>
+            </div>
+          </div>
+
+          <div class="recommend-card">
+            <div class="panel">
+              <h3 id="recommendTitle">最适合你的 Molly Tea</h3>
+              <div id="drinkList"></div>
+            </div>
+            <div class="panel coupon">
+              <h3 id="benefitTitle">专属福利</h3>
+              <div id="couponText" class="coupon-text"></div>
+              <a id="benefitLink" class="benefit-link disabled" href="#" target="_blank" rel="noopener">福利链接待更新</a>
+            </div>
+          </div>
+
+          <div class="restart-wrap">
+            <button id="restartBtn" class="primary">重新测试</button>
+          </div>
+        </section>
+      </div>
+    </section>
+    <div class="footer">MOLLY TEA · A LITTLE FLORAL HAPPINESS</div>
+  </main>
+
+<script>
+/* ==================== 可编辑：福利领取链接 ====================
+   把 # 替换为实际链接即可。每种人格可以设置不同链接。
+================================================================ */
+const benefitLinks = {F:"#",C:"#",S:"#",D:"#"};
+
+const questionScores = [
+  [{C:2,F:1},{D:2,S:1},{S:2,F:1},{C:2,D:1}],
+  [{F:2,C:1},{S:2,D:1},{C:2,F:1},{D:2,S:1}],
+  [{F:2,C:1},{C:2,D:1},{S:2,F:1},{D:2,S:1}],
+  [{F:2,C:1},{C:2,S:1},{S:2,D:1},{D:2,S:1}]
+];
+
+const drinkSvgs = {
+F:`<svg viewBox="0 0 260 300" xmlns="http://www.w3.org/2000/svg">
+<defs><linearGradient id="f1" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#f7ead5"/><stop offset="1" stop-color="#d9b77b"/></linearGradient></defs>
+<ellipse cx="130" cy="277" rx="72" ry="13" fill="rgba(47,64,53,.12)"/>
+<path d="M79 62h102l-11 190H90z" fill="url(#f1)" stroke="#6b765f" stroke-width="3"/>
+<path d="M76 62h108" stroke="#39483d" stroke-width="8" stroke-linecap="round"/>
+<path d="M157 19l-17 47" stroke="#39483d" stroke-width="7" stroke-linecap="round"/>
+<circle cx="105" cy="117" r="5" fill="#fff8e8"/><circle cx="142" cy="142" r="6" fill="#fff8e8"/><circle cx="121" cy="178" r="5" fill="#fff8e8"/>
+<path d="M107 133c17-24 35-24 48 0-18 13-32 13-48 0z" fill="#f8f1dc" opacity=".9"/>
+<path d="M131 113c-2 20-1 33 0 48M113 130c10 4 17 10 20 17M149 130c-9 5-15 10-18 17" stroke="#697c65" stroke-width="2" fill="none"/>
+</svg>`,
+C:`<svg viewBox="0 0 260 300" xmlns="http://www.w3.org/2000/svg">
+<defs><linearGradient id="c1" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#ccd8b8"/><stop offset=".56" stop-color="#6f8d5e"/><stop offset=".57" stop-color="#e8d5b0"/><stop offset="1" stop-color="#a87945"/></linearGradient></defs>
+<ellipse cx="130" cy="277" rx="72" ry="13" fill="rgba(47,64,53,.12)"/>
+<path d="M79 62h102l-11 190H90z" fill="url(#c1)" stroke="#526857" stroke-width="3"/>
+<path d="M76 62h108" stroke="#39483d" stroke-width="8" stroke-linecap="round"/>
+<path d="M157 19l-17 47" stroke="#39483d" stroke-width="7" stroke-linecap="round"/>
+<path d="M88 73c20-27 65-31 84 1-23 16-61 18-84-1z" fill="#f3ead7"/>
+<circle cx="104" cy="216" r="5" fill="#5f452f"/><circle cx="132" cy="229" r="5" fill="#5f452f"/><circle cx="153" cy="201" r="5" fill="#5f452f"/>
+</svg>`,
+S:`<svg viewBox="0 0 260 300" xmlns="http://www.w3.org/2000/svg">
+<defs><linearGradient id="s1" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#fff4be"/><stop offset=".5" stop-color="#f3c357"/><stop offset="1" stop-color="#e29245"/></linearGradient></defs>
+<ellipse cx="130" cy="277" rx="72" ry="13" fill="rgba(47,64,53,.12)"/>
+<path d="M79 62h102l-11 190H90z" fill="url(#s1)" stroke="#6c7458" stroke-width="3"/>
+<path d="M76 62h108" stroke="#39483d" stroke-width="8" stroke-linecap="round"/>
+<path d="M157 19l-17 47" stroke="#39483d" stroke-width="7" stroke-linecap="round"/>
+<path d="M93 118c22-24 58-22 75 3-25 15-52 16-75-3z" fill="#ffe4a1" opacity=".9"/>
+<circle cx="104" cy="168" r="13" fill="#f3a73d"/><circle cx="144" cy="194" r="12" fill="#ffcf5d"/><circle cx="130" cy="226" r="7" fill="#fff4c7"/>
+<path d="M154 95c12-12 24-16 37-12-6 13-17 20-33 19" fill="#66845e"/>
+</svg>`,
+D:`<svg viewBox="0 0 260 300" xmlns="http://www.w3.org/2000/svg">
+<defs><linearGradient id="d1" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#f6eadf"/><stop offset=".52" stop-color="#e9c6ae"/><stop offset="1" stop-color="#bd835f"/></linearGradient></defs>
+<ellipse cx="130" cy="277" rx="72" ry="13" fill="rgba(47,64,53,.12)"/>
+<path d="M79 85h102l-11 167H90z" fill="url(#d1)" stroke="#6e665c" stroke-width="3"/>
+<path d="M76 85h108" stroke="#39483d" stroke-width="8" stroke-linecap="round"/>
+<path d="M157 22l-17 67" stroke="#39483d" stroke-width="7" stroke-linecap="round"/>
+<path d="M92 85c-2-17 11-29 25-25 3-20 30-22 36-3 20-2 29 17 18 31-25 9-57 8-79-3z" fill="#fffaf2" stroke="#d7c7b6" stroke-width="2"/>
+<circle cx="112" cy="145" r="5" fill="#fff3dc"/><circle cx="147" cy="181" r="6" fill="#fff3dc"/><circle cx="126" cy="221" r="5" fill="#fff3dc"/>
+</svg>`,
+T:`<svg viewBox="0 0 260 300" xmlns="http://www.w3.org/2000/svg">
+<defs><linearGradient id="t1" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#dbe5c9"/><stop offset=".54" stop-color="#9fb284"/><stop offset="1" stop-color="#607650"/></linearGradient></defs>
+<ellipse cx="130" cy="277" rx="72" ry="13" fill="rgba(47,64,53,.12)"/>
+<path d="M79 62h102l-11 190H90z" fill="url(#t1)" stroke="#4f6452" stroke-width="3"/>
+<path d="M76 62h108" stroke="#39483d" stroke-width="8" stroke-linecap="round"/>
+<path d="M157 19l-17 47" stroke="#39483d" stroke-width="7" stroke-linecap="round"/>
+<path d="M103 145c18-29 41-38 68-28-8 27-30 42-64 42" fill="#dfe9c8" opacity=".9"/>
+<path d="M117 152c14-10 27-19 44-28" stroke="#617b5b" stroke-width="3" fill="none"/>
+<circle cx="104" cy="201" r="5" fill="#d8e2c5"/><circle cx="143" cy="224" r="6" fill="#d8e2c5"/>
+</svg>`
+};
+
+const i18n = {
+zh:{
+  introEyebrow:"✦ Find Your Tea Personality",introTitle:"你的奶茶人格<br>是哪一种？",
+  introSubtitle:"4 道轻松选择题，读懂你的口味偏好与今日心情，<br>找到最适合你的 Molly Tea 系列饮品。",
+  introNote:"约 30 秒完成 · 共 5 种人格",start:"开始测试",prev:"← 上一题",next:"下一题 →",viewResult:"查看结果 →",
+  resultLabel:"Your Tea Personality",diagnosisTitle:"人格诊断",recommendTitle:"最适合你的 Molly Tea",benefitTitle:"专属福利",
+  benefitLink:"领取福利",benefitPending:"福利链接待更新",restart:"重新测试",
+  questions:[
+    {title:"今天最想获得什么？",options:["🌿 放松一下","✨ 给自己一点奖励","⚡ 提提神","🌞 夏日快乐","💚 没有负担"]},
+    {title:"如果今天下午有两个小时自由时间，你会？",options:["📖 安静咖啡店","🛍️ 去逛街","🏖️ 去吹吹风","🎮 在家追剧或游戏","🏃 去散步运动"]},
+    {title:"最喜欢下面哪种满足感？",options:["🍂 Light & Clean｜轻盈清爽","🥛 Smooth & Milky｜丝滑奶香","✨ Crisp & Refreshing｜冰爽解渴","☁️ Rich & Creamy｜浓郁绵密","🎁 Full of Surprises｜层次丰富"]},
+    {title:"选择一种小小的幸福。",options:["🌅 看日落","☔ 听雨声","🌸 闻花香","🎵 听喜欢的歌","🕯️ 点一盏香薰"]}
+  ],
+  results:{
+    F:{name:"Floral Lover",cn:"花香治愈派",desc:"你习惯在细腻里感受世界。比起喧闹与刺激，你更喜欢温柔、平衡、留有余韵的体验。淡淡花香最能安放你的情绪，也让日常多一点精致与从容。",drinks:[["FLORAL FRESH MILK TEA","花香鲜奶茶系列"],["Premium Jasmine Apple Milk Tea","针王苹果"]],coupon:"花香鲜奶茶系列<br>＋针王苹果 85 折券"},
+    C:{name:"Cheese Addict",cn:"浓郁满足派",desc:"你对快乐的感受直接而丰盛。喜欢有层次、有存在感、能瞬间带来满足的体验。浓郁奶盖与深厚茶香，正适合你认真犒赏自己的时刻。",drinks:[["MATCHA","抹茶系列"],["Tongmu Lapsang Salted Cheese","起司咸酪乳小种"]],coupon:"抹茶系列<br>＋起司咸酪乳小种 85 折券"},
+    S:{name:"Summer Explorer",cn:"水果活力派",desc:"你对新鲜感保持敏锐，喜欢轻快、明亮、带一点冒险的生活节奏。酸甜果香与冰爽口感，会放大你的好奇心，也像把夏日阳光装进一杯茶里。",drinks:[["Jasmine Mango Smoothie","茉莉杨枝甘露"],["Peach Oolong Milk Tea","蜜桃老铁"]],coupon:"茉莉杨枝甘露<br>＋蜜桃老铁 85 折券"},
+    D:{name:"Dessert Lover",cn:"甜品幸福派",desc:"你珍惜那些能让人立刻放松下来的小幸福。柔软、绵密、带着甜意的体验，会让你感到被照顾。对你来说，一杯饮品也是生活里值得认真享受的仪式。",drinks:[["FLORAL SNOWY WHIPPED CREAM","花香奶油顶系列"]],coupon:"花香奶油顶系列<br>85 折券"},
+    T:{name:"Tea Minimalist",cn:"纯茶清醒派",desc:"你欣赏简单而有质感的事物，不需要太多装饰，也能看见本质。清透茶香、自然层次与干净余韵，最符合你松弛、清醒又坚定的内在节奏。",drinks:[["FLORAL BREWED TEA","花香茗茶系列"]],coupon:"花香茗茶系列<br>85 折券"}
+  }
+},
+en:{
+  introEyebrow:"✦ Find Your Tea Personality",introTitle:"What Is Your<br>Tea Personality?",
+  introSubtitle:"Answer four quick questions about your mood and taste,<br>then discover the Molly Tea series made for you.",
+  introNote:"About 30 seconds · 5 personality types",start:"Start Quiz",prev:"← Previous",next:"Next →",viewResult:"See My Result →",
+  resultLabel:"Your Tea Personality",diagnosisTitle:"Personality Reading",recommendTitle:"Your Molly Tea Match",benefitTitle:"Exclusive Reward",
+  benefitLink:"Claim Reward",benefitPending:"Reward link coming soon",restart:"Take the Quiz Again",
+  questions:[
+    {title:"What do you need most today?",options:["🌿 A moment to relax","✨ A little reward","⚡ An energy boost","🌞 A taste of summer","💚 Something light"]},
+    {title:"You have two free hours this afternoon. What would you do?",options:["📖 Sit in a quiet café","🛍️ Go shopping","🏖️ Enjoy the breeze","🎮 Watch a show or play games","🏃 Take a walk or exercise"]},
+    {title:"Which kind of satisfaction do you enjoy most?",options:["🍂 Light & Clean","🥛 Smooth & Milky","✨ Crisp & Refreshing","☁️ Rich & Creamy","🎁 Full of Surprises"]},
+    {title:"Pick a little happiness.",options:["🌅 Watch the sunset","☔ Listen to the rain","🌸 Smell the flowers","🎵 Play a favorite song","🕯️ Light a scented candle"]}
+  ],
+  results:{
+    F:{name:"Floral Lover",cn:"Soft Floral Soul",desc:"You notice beauty in subtle details. Rather than loud excitement, you prefer experiences that feel gentle, balanced and quietly refined. Delicate floral notes bring calm to your mood and elegance to the everyday.",drinks:[["FLORAL FRESH MILK TEA","Floral Fresh Milk Tea Series"],["Premium Jasmine Apple Milk Tea","Premium Jasmine Apple"]],coupon:"15% off Floral Fresh Milk Tea<br>and Premium Jasmine Apple"},
+    C:{name:"Cheese Addict",cn:"Rich & Satisfying",desc:"You experience joy in a bold and generous way. You love depth, texture and anything that feels instantly rewarding. Rich cheese foam and layered tea are made for your well-deserved moments of indulgence.",drinks:[["MATCHA","Matcha Series"],["Tongmu Lapsang Salted Cheese","Tongmu Lapsang Salted Cheese"]],coupon:"15% off Matcha Series<br>and Tongmu Lapsang Salted Cheese"},
+    S:{name:"Summer Explorer",cn:"Fruity & Energetic",desc:"You stay curious about everything fresh and new. Bright fruit, sweet-and-sour notes and icy textures match your lively pace and adventurous spirit—like a little burst of summer in every sip.",drinks:[["Jasmine Mango Smoothie","Jasmine Mango Smoothie"],["Peach Oolong Milk Tea","Peach Oolong Milk Tea"]],coupon:"15% off Jasmine Mango Smoothie<br>and Peach Oolong Milk Tea"},
+    D:{name:"Dessert Lover",cn:"Sweet Comfort Seeker",desc:"You treasure small comforts that help you soften and slow down. Creamy textures and gentle sweetness make you feel cared for. To you, a drink can be a meaningful little ritual of happiness.",drinks:[["FLORAL SNOWY WHIPPED CREAM","Floral Snowy Whipped Cream Series"]],coupon:"15% off Floral Snowy<br>Whipped Cream Series"},
+    T:{name:"Tea Minimalist",cn:"Pure Tea Purist",desc:"You value simplicity with substance. You do not need excess to appreciate quality. Clean tea aromas, natural layers and a graceful finish suit your calm, clear-minded and quietly confident nature.",drinks:[["FLORAL BREWED TEA","Floral Brewed Tea Series"]],coupon:"15% off Floral Brewed<br>Tea Series"}
+  }
+},
+th:{
+  introEyebrow:"✦ Find Your Tea Personality",introTitle:"บุคลิกชาของคุณ<br>เป็นแบบไหน?",
+  introSubtitle:"ตอบคำถามง่าย ๆ 4 ข้อเกี่ยวกับอารมณ์และรสชาติที่ชอบ<br>แล้วค้นหาเมนู Molly Tea ที่เหมาะกับคุณที่สุด",
+  introNote:"ใช้เวลาประมาณ 30 วินาที · 5 บุคลิก",start:"เริ่มทำแบบทดสอบ",prev:"← ข้อก่อนหน้า",next:"ข้อต่อไป →",viewResult:"ดูผลลัพธ์ →",
+  resultLabel:"Your Tea Personality",diagnosisTitle:"คำวิเคราะห์บุคลิก",recommendTitle:"Molly Tea ที่เหมาะกับคุณ",benefitTitle:"สิทธิพิเศษเฉพาะคุณ",
+  benefitLink:"รับสิทธิพิเศษ",benefitPending:"กำลังอัปเดตลิงก์สิทธิพิเศษ",restart:"ทำแบบทดสอบอีกครั้ง",
+  questions:[
+    {title:"วันนี้คุณอยากได้อะไรที่สุด?",options:["🌿 พักผ่อนสักหน่อย","✨ ให้รางวัลตัวเอง","⚡ เติมพลัง","🌞 ความสดใสแบบฤดูร้อน","💚 เบา ๆ ไม่หนักเกินไป"]},
+    {title:"ถ้ามีเวลาว่าง 2 ชั่วโมงในช่วงบ่าย คุณจะเลือกทำอะไร?",options:["📖 นั่งร้านกาแฟเงียบ ๆ","🛍️ ไปช้อปปิ้ง","🏖️ ออกไปรับลม","🎮 ดูซีรีส์หรือเล่นเกมอยู่บ้าน","🏃 เดินเล่นหรือออกกำลังกาย"]},
+    {title:"ความฟินแบบไหนที่คุณชอบที่สุด?",options:["🍂 เบาและสะอาดสดชื่น","🥛 นุ่มละมุนและหอมนม","✨ เย็นสดชื่นดับกระหาย","☁️ เข้มข้นและครีมมี่","🎁 มีหลายรสชาติให้น่าค้นหา"]},
+    {title:"เลือกความสุขเล็ก ๆ หนึ่งอย่าง",options:["🌅 ดูพระอาทิตย์ตก","☔ ฟังเสียงฝน","🌸 ดมกลิ่นดอกไม้","🎵 ฟังเพลงโปรด","🕯️ จุดเทียนหอม"]}
+  ],
+  results:{
+    F:{name:"Floral Lover",cn:"สายดอกไม้แสนละมุน",desc:"คุณมองเห็นความงามในรายละเอียดเล็ก ๆ และชอบประสบการณ์ที่อ่อนโยน สมดุล และมีความประณีต กลิ่นดอกไม้บางเบาช่วยให้คุณรู้สึกสงบ พร้อมเติมความงดงามให้กับทุกวัน",drinks:[["FLORAL FRESH MILK TEA","ซีรีส์ชานมสดกลิ่นดอกไม้"],["Premium Jasmine Apple Milk Tea","พรีเมียมจัสมินแอปเปิล"]],coupon:"ส่วนลด 15% สำหรับชานมสดกลิ่นดอกไม้<br>และพรีเมียมจัสมินแอปเปิล"},
+    C:{name:"Cheese Addict",cn:"สายเข้มข้นเต็มคำ",desc:"คุณสัมผัสความสุขได้อย่างเต็มที่และชัดเจน คุณชอบรสชาติที่มีมิติ เนื้อสัมผัสที่เด่น และความรู้สึกคุ้มค่าในทันที ชีสโฟมเข้มข้นจึงเหมาะกับช่วงเวลาที่คุณตั้งใจให้รางวัลตัวเอง",drinks:[["MATCHA","ซีรีส์มัทฉะ"],["Tongmu Lapsang Salted Cheese","Tongmu Lapsang Salted Cheese"]],coupon:"ส่วนลด 15% สำหรับซีรีส์มัทฉะ<br>และ Tongmu Lapsang Salted Cheese"},
+    S:{name:"Summer Explorer",cn:"สายผลไม้สดใส",desc:"คุณเปิดรับสิ่งใหม่และชอบความสดใสอยู่เสมอ รสผลไม้ เปรี้ยวหวาน และความเย็นสดชื่นเข้ากับจังหวะชีวิตที่กระฉับกระเฉงของคุณ เหมือนได้พกบรรยากาศฤดูร้อนไว้ในทุกแก้ว",drinks:[["Jasmine Mango Smoothie","จัสมินแมงโก้สมูทตี้"],["Peach Oolong Milk Tea","ชานมพีชอู่หลง"]],coupon:"ส่วนลด 15% สำหรับจัสมินแมงโก้สมูทตี้<br>และชานมพีชอู่หลง"},
+    D:{name:"Dessert Lover",cn:"สายของหวานแสนสุข",desc:"คุณให้คุณค่ากับความสุขเล็ก ๆ ที่ช่วยให้ผ่อนคลาย เนื้อสัมผัสนุ่มละมุนและความหวานพอดีทำให้คุณรู้สึกได้รับการดูแล สำหรับคุณ เครื่องดื่มหนึ่งแก้วคือพิธีกรรมเล็ก ๆ ของความสุข",drinks:[["FLORAL SNOWY WHIPPED CREAM","ซีรีส์ชาดอกไม้ท็อปวิปครีม"]],coupon:"ส่วนลด 15% สำหรับซีรีส์<br>Floral Snowy Whipped Cream"},
+    T:{name:"Tea Minimalist",cn:"สายชาบริสุทธิ์",desc:"คุณชื่นชอบความเรียบง่ายที่มีคุณภาพ ไม่ต้องมีสิ่งตกแต่งมากมายก็สัมผัสคุณค่าได้ กลิ่นชาสะอาดและรสชาติเป็นธรรมชาติเข้ากับบุคลิกที่สงบ ชัดเจน และมั่นคงของคุณ",drinks:[["FLORAL BREWED TEA","ซีรีส์ชาดอกไม้ชงสด"]],coupon:"ส่วนลด 15% สำหรับซีรีส์<br>Floral Brewed Tea"}
+  }
+}
+};
+
+/* Today's Mood Ver.2 — confirmed direction from the project discussion. */
+Object.assign(i18n.zh,{
+  introEyebrow:"✦ What's Your Tea Mood Today?",
+  introTitle:"今天，想喝点<br>什么心情？",
+  introSubtitle:"凭第一感觉完成 4 道轻松选择题，<br>找到此刻最适合你的 Molly Tea。",
+  introNote:"约 20 秒完成 · 4 种今日心情 · 可重复测试",
+  resultLabel:"Today's Tea Mood",diagnosisTitle:"今日心情",recommendTitle:"今天推荐你喝",benefitTitle:"会员专属福利",
+  benefitLink:"登录会员 · 领取全饮品 85 折券",benefitPending:"登录会员 · 领取全饮品 85 折券",restart:"换个心情，再测一次",
+  questions:[
+    {title:"如果今天能收到一份礼物，你想要？",options:["😴 睡到自然醒","🍀 好运一整天","🏖️ 立刻去度假","💸 多一笔零花钱"]},
+    {title:"今天只能留下一个，你会选？",options:["🌸 花香","🌊 海浪","🌧️ 雨声","🎁 一个惊喜"]},
+    {title:"休息时间，哪一种最舒服？",options:["📖 安静读一会儿","🍰 吃一份甜点","🏖️ 去海边吹风","🛍️ 探索没去过的地方"]},
+    {title:"不用想太久，选一个今天的 Emoji。",options:["😌","🤍","🌞","✨"]}
+  ],
+  results:{
+    F:{name:"Bloom Mood",cn:"花香治愈",desc:"今天适合慢一点。让轻柔花香和清雅茶韵陪你把节奏放缓，享受片刻自然、舒服的留白。",drinks:[["FLORAL FRESH MILK TEA","花香鲜奶茶系列"],["Jasmine Milk Tea","茉莉奶白"],["Gardenia Milk Tea","栀子奶白"]],coupon:"首次完成可领取<br>全饮品 85 折券"},
+    C:{name:"Cozy Mood",cn:"浓郁满足",desc:"今天值得好好奖励自己。绵密、顺滑又有层次的奶香与芝士感，刚好接住你想被治愈的心情。",drinks:[["NEW-IN & MATCHA","新品及抹茶系列"],["FLORAL SNOWY WHIPPED CREAM","花香奶油顶系列"],["Tongmu Lapsang Salted Cheese","起司咸酪乳小种"]],coupon:"首次完成可领取<br>全饮品 85 折券"},
+    S:{name:"Summer Mood",cn:"清爽活力",desc:"今天想要轻快一点。清甜果香、椰香与冰爽茶感，会给日常加上一阵明亮又自在的风。",drinks:[["Jasmine Mango Smoothie","茉莉杨枝甘露"],["FLORAL BREWED TEA","花香茗茶系列"],["Jasmine Coconut","茉莉椰"]],coupon:"首次完成可领取<br>全饮品 85 折券"},
+    D:{name:"Curious Mood",cn:"好奇尝鲜",desc:"今天想来点不一样。独特搭配与层层展开的风味，会让每一口都多一点新鲜感和意想不到的惊喜。",drinks:[["Premium Jasmine Apple Milk Tea","针王苹果"],["Peach Oolong Milk Tea","蜜桃老铁"],["Pistachio Floral Tea","开心果花香茶系列"]],coupon:"首次完成可领取<br>全饮品 85 折券"}
+  }
+});
+Object.assign(i18n.en,{
+  introEyebrow:"✦ What's Your Tea Mood Today?",introTitle:"What's Your<br>Tea Mood Today?",
+  introSubtitle:"Go with your first instinct through four quick picks<br>and meet the Molly Tea that fits this moment.",
+  introNote:"About 20 seconds · 4 moods · Play anytime",resultLabel:"Today's Tea Mood",diagnosisTitle:"Your Mood Today",recommendTitle:"Your Tea Match",benefitTitle:"Member Benefit",
+  benefitLink:"Sign in · Claim 15% Off Any Drink",benefitPending:"Sign in · Claim 15% Off Any Drink",restart:"Try Another Mood",
+  questions:[
+    {title:"If today could give you one gift, what would it be?",options:["😴 Sleep in","🍀 Good luck all day","🏖️ An instant vacation","💸 Extra spending money"]},
+    {title:"You can keep only one today. Pick one.",options:["🌸 Flowers","🌊 Ocean waves","🌧️ Rain","🎁 A surprise"]},
+    {title:"What feels best on a break?",options:["📖 Read somewhere quiet","🍰 Have dessert","🏖️ Catch a sea breeze","🛍️ Explore somewhere new"]},
+    {title:"Don't overthink it. Pick today's emoji.",options:["😌","🤍","🌞","✨"]}
+  ],
+  results:{
+    F:{name:"Bloom Mood",cn:"Slow & Floral",desc:"Today is for slowing down. Let delicate florals and graceful tea notes create a calm little pause in your day.",drinks:[["FLORAL FRESH MILK TEA","Floral Fresh Milk Tea Series"],["Jasmine Milk Tea","Jasmine Milk Tea"],["Gardenia Milk Tea","Gardenia Milk Tea"]],coupon:"First completion gift:<br>15% off any drink"},
+    C:{name:"Cozy Mood",cn:"Rich & Cozy",desc:"You deserve a little reward today. Creamy milk, cheese foam and satisfying layers are ready to meet your comfort mood.",drinks:[["NEW-IN & MATCHA","New-In and Matcha Series"],["FLORAL SNOWY WHIPPED CREAM","Floral Snowy Whipped Cream"],["Tongmu Lapsang Salted Cheese","Tongmu Lapsang Salted Cheese"]],coupon:"First completion gift:<br>15% off any drink"},
+    S:{name:"Summer Mood",cn:"Bright & Fresh",desc:"Today calls for something light and lively. Fruit, coconut and crisp tea notes bring a bright breeze to every sip.",drinks:[["Jasmine Mango Smoothie","Jasmine Mango Smoothie"],["FLORAL BREWED TEA","Floral Brewed Tea Series"],["Jasmine Coconut","Jasmine Coconut"]],coupon:"First completion gift:<br>15% off any drink"},
+    D:{name:"Curious Mood",cn:"Playful & New",desc:"Today you want something different. Unexpected pairings and layered flavors turn every sip into a small discovery.",drinks:[["Premium Jasmine Apple Milk Tea","Premium Jasmine Apple"],["Peach Oolong Milk Tea","Peach Oolong Milk Tea"],["Pistachio Floral Tea","Pistachio Floral Tea Series"]],coupon:"First completion gift:<br>15% off any drink"}
+  }
+});
+Object.assign(i18n.th,{
+  introEyebrow:"✦ What's Your Tea Mood Today?",introTitle:"วันนี้คุณอยู่ใน<br>Tea Mood แบบไหน?",
+  introSubtitle:"เลือกตามความรู้สึกแรกจาก 4 คำถามสั้น ๆ<br>แล้วพบกับ Molly Tea ที่เข้ากับวันนี้ของคุณ",
+  introNote:"ประมาณ 20 วินาที · 4 มู้ด · เล่นซ้ำได้ทุกวัน",resultLabel:"Today's Tea Mood",diagnosisTitle:"มู้ดของคุณวันนี้",recommendTitle:"เมนูที่เหมาะกับคุณวันนี้",benefitTitle:"สิทธิพิเศษสำหรับสมาชิก",
+  benefitLink:"เข้าสู่ระบบ · รับส่วนลด 15% ทุกเมนู",benefitPending:"เข้าสู่ระบบ · รับส่วนลด 15% ทุกเมนู",restart:"ลองมู้ดใหม่อีกครั้ง",
+  questions:[
+    {title:"ถ้าวันนี้ได้รับของขวัญ 1 อย่าง คุณอยากได้อะไร?",options:["😴 ตื่นสายแบบไม่ต้องรีบ","🍀 โชคดีตลอดวัน","🏖️ ได้ไปเที่ยวทันที","💸 เงินใช้เพิ่ม"]},
+    {title:"วันนี้เลือกเก็บไว้ได้แค่อย่างเดียว จะเลือกอะไร?",options:["🌸 กลิ่นดอกไม้","🌊 เสียงคลื่น","🌧️ เสียงฝน","🎁 เซอร์ไพรส์"]},
+    {title:"เวลาพัก แบบไหนสบายใจที่สุด?",options:["📖 อ่านหนังสือเงียบ ๆ","🍰 กินของหวาน","🏖️ รับลมทะเล","🛍️ ไปที่ใหม่ ๆ"]},
+    {title:"ไม่ต้องคิดนาน เลือก Emoji ของวันนี้",options:["😌","🤍","🌞","✨"]}
+  ],
+  results:{
+    F:{name:"Bloom Mood",cn:"มู้ดดอกไม้แสนละมุน",desc:"วันนี้เหมาะกับการค่อย ๆ ผ่อนจังหวะ ให้กลิ่นดอกไม้และรสชาที่นุ่มนวลเติมช่วงเวลาสงบเล็ก ๆ ให้คุณ",drinks:[["FLORAL FRESH MILK TEA","ซีรีส์ชานมสดกลิ่นดอกไม้"],["Jasmine Milk Tea","ชานมมะลิ"],["Gardenia Milk Tea","ชานมการ์ดีเนีย"]],coupon:"ของขวัญสำหรับการเล่นครั้งแรก:<br>ส่วนลด 15% ทุกเมนู"},
+    C:{name:"Cozy Mood",cn:"มู้ดเข้มข้นแสนสบาย",desc:"วันนี้คุณควรให้รางวัลตัวเอง ความนุ่มละมุนของนม ชีสโฟม และรสชาติหลายชั้นพร้อมโอบรับมู้ดของคุณ",drinks:[["NEW-IN & MATCHA","ซีรีส์ใหม่และมัทฉะ"],["FLORAL SNOWY WHIPPED CREAM","ซีรีส์สโนวี่วิปครีม"],["Tongmu Lapsang Salted Cheese","ชาถงมู่กวนชีสเค็ม"]],coupon:"ของขวัญสำหรับการเล่นครั้งแรก:<br>ส่วนลด 15% ทุกเมนู"},
+    S:{name:"Summer Mood",cn:"มู้ดสดชื่นสดใส",desc:"วันนี้เหมาะกับความเบาและสดใส ผลไม้ มะพร้าว และชารสสะอาดจะเติมลมเย็น ๆ ให้ทุกจิบ",drinks:[["Jasmine Mango Smoothie","จัสมินแมงโก้สมูทตี้"],["FLORAL BREWED TEA","ซีรีส์ชาใสดอกไม้"],["Jasmine Coconut","ชามะลิมะพร้าว"]],coupon:"ของขวัญสำหรับการเล่นครั้งแรก:<br>ส่วนลด 15% ทุกเมนู"},
+    D:{name:"Curious Mood",cn:"มู้ดอยากลองอะไรใหม่",desc:"วันนี้คุณอยากได้อะไรที่ต่างออกไป การจับคู่รสชาติแบบคาดไม่ถึงและมิติที่ค่อย ๆ เปิดออก จะทำให้ทุกจิบเป็นการค้นพบ",drinks:[["Premium Jasmine Apple Milk Tea","ชานมมะลิแอปเปิล"],["Peach Oolong Milk Tea","ชานมพีชอู่หลง"],["Pistachio Floral Tea","ซีรีส์ชาดอกไม้พิสตาชิโอ"]],coupon:"ของขวัญสำหรับการเล่นครั้งแรก:<br>ส่วนลด 15% ทุกเมนู"}
+  }
+});
+
+const productCards={
+  zh:{
+    F:[
+      ["茉莉奶白","Jasmine Milk Tea",["茉莉","鲜醇","纯粹"],"七窨茉莉入高山茶，搭配优质牛乳，甘醇鲜爽，香气悠长。"],
+      ["栀子奶白","Gardenia Milk Tea",["栀子","清新","鲜甜"],"高山栀子与绿茶相融，奶鲜引出高扬花香，清新爽口。"],
+      ["桂花龙井","Osmanthus Longjing",["桂香","清冽","回甘"],"新嫩龙井拼配馥郁金桂，茶香清冽，桂香久久回荡。"],
+      ["白兰","White Champaca Milk Tea",["兰香","丝滑","幽长"],"高山茶窨入白兰花香，搭配牛乳，鲜醇爽口、丝丝甘滑。"],
+      ["白兰金萱","Champaca Jinxuan",["花香","清甜","奶糖香"],"天然奶香金萱与高扬兰香相融，尾调带细细奶糖香。"]
+    ],
+    C:[
+      ["雪绒抹茶针王","Snowy Matcha Jasmine",["抹茶","芝士","绵密"],"雪绒抹茶芝士奶盖、浓萃抹茶与茉莉针王层层融合，顺滑饱满。"],
+      ["雪绒抹茶白兰","Snowy Matcha Champaca",["抹茶","兰香","顺滑"],"浓萃抹茶、兰香甘露茶与咸芝士厚牛乳交织，香气细腻留长。"],
+      ["抹茶茉莉咸酪乳","Matcha Jasmine Cheese",["绿意","花香","浓郁"],"起司咸酪乳融入茉莉针王，抹茶丰沛，花香飘逸。"],
+      ["一朵茉莉花","Jasmine Snowy Cream",["云顶","碧根果","奶醇"],"茉莉云顶与升级茉莉奶白相遇，顶部碧根果碎增添酥脆口感。"],
+      ["起司咸酪乳小种","Lapsang Salted Cheese",["小种","榛果","醇厚"],"桐木关小种搭配咸酪乳、榛果芝士与可可粉，整体奶香醇厚。"]
+    ],
+    S:[
+      ["茉莉杨枝甘露","Jasmine Mango Smoothie",["芒果","西柚","冰爽"],"绵密芒果冰沙加入新鲜芒果与爆汁西柚，融入顺滑椰乳。"],
+      ["茉莉椰","Jasmine Coconut",["椰水","花香","甘润"],"茉莉针王搭配泰国香椰水，芳香裹椰甜，鲜爽沁心。"],
+      ["小兰花","Little Orchid",["兰香","竹叶","清甜"],"兰香甘露融合泰国香椰水，竹叶香、幽兰茶香与椰香依次展开。"],
+      ["栀子冰茶","Gardenia Iced Tea",["栀子","干净","鲜灵"],"六窨一提凝入栀子花香，茶底清雅，尾调干净鲜灵。"],
+      ["针王冰茶","Jasmine King Iced Tea",["茉莉","毫香","微甜"],"高等级茉莉针王鲜灵甘爽，尾调带冰糖感微甜。"]
+    ],
+    D:[
+      ["针王苹果","Jasmine Apple Milk Tea",["苹果","茉莉","丝滑"],"鲜榨苹果果香融入茉莉针王与牛乳，果香、花香和茶香层层展开。"],
+      ["蜜桃老铁","Peach Oolong Milk Tea",["蜜桃","老铁","话梅香"],"沁甜蜜桃搭配五年陈老铁与牛乳，尾调带粉糯奶油香。"],
+      ["桐木关小种","Tongmu Lapsang",["蜜桃","桂圆","茶韵"],"珍贵小种经创新摇青激发蜜桃桂圆香，茶汤温润，茶韵悠长。"],
+      ["开心果茉莉椰","Pistachio Jasmine Coconut",["开心果","椰香","芝士"],"茉莉茶底与椰子水加入开心果芝士，清甜与香醇依次绽放。"],
+      ["开心果小兰花","Pistachio Little Orchid",["坚果","兰香","椰香"],"开心果芝士、兰香甘露与椰子水交织，层次饱满又轻柔。"]
+    ]
+  }
+};
+const enTag={"茉莉":"Jasmine","鲜醇":"Mellow","纯粹":"Pure","栀子":"Gardenia","清新":"Fresh","鲜甜":"Bright","桂香":"Osmanthus","清冽":"Crisp","回甘":"Clean finish","兰香":"Floral","丝滑":"Silky","幽长":"Lingering","花香":"Floral","清甜":"Light sweet","奶糖香":"Milky","抹茶":"Matcha","芝士":"Cheese","绵密":"Creamy","顺滑":"Smooth","绿意":"Vibrant","浓郁":"Rich","云顶":"Whipped","碧根果":"Pecan","奶醇":"Milky","小种":"Lapsang","榛果":"Hazelnut","醇厚":"Full-bodied","芒果":"Mango","西柚":"Pomelo","冰爽":"Icy","椰水":"Coconut","甘润":"Refreshing","竹叶":"Bamboo","干净":"Clean","鲜灵":"Bright","毫香":"Tea aroma","微甜":"Light sweet","苹果":"Apple","话梅香":"Plum","蜜桃":"Peach","老铁":"Aged oolong","桂圆":"Longan","茶韵":"Tea finish","开心果":"Pistachio","椰香":"Coconut","坚果":"Nutty"};
+const thTag={"茉莉":"มะลิ","鲜醇":"กลมกล่อม","纯粹":"บริสุทธิ์","栀子":"การ์ดีเนีย","清新":"สดชื่น","鲜甜":"หวานสดใส","桂香":"หอมอบเชย","清冽":"ใสสะอาด","回甘":"หวานปลาย","兰香":"หอมดอกไม้","丝滑":"นุ่มลื่น","幽长":"หอมยาว","花香":"กลิ่นดอกไม้","清甜":"หวานเบา","奶糖香":"หอมนม","抹茶":"มัทฉะ","芝士":"ชีส","绵密":"เนียนนุ่ม","顺滑":"ละมุน","绿意":"สดใส","浓郁":"เข้มข้น","云顶":"วิปครีม","碧根果":"พีแคน","奶醇":"นมหอม","小种":"แลปซาง","榛果":"เฮเซลนัต","醇厚":"เต็มรส","芒果":"มะม่วง","西柚":"ส้มโอ","冰爽":"เย็นสดชื่น","椰水":"น้ำมะพร้าว","甘润":"สดชื่น","竹叶":"ใบไผ่","干净":"สะอาด","鲜灵":"หอมสด","毫香":"กลิ่นชา","微甜":"หวานน้อย","苹果":"แอปเปิล","话梅香":"บ๊วย","蜜桃":"พีช","老铁":"อู่หลงบ่ม","桂圆":"ลำไย","茶韵":"รสชาติดี","开心果":"พิสตาชิโอ","椰香":"มะพร้าว","坚果":"ถั่วหอม"};
+function makeLocalizedCards(tags,detail){
+  const localized={};
+  Object.entries(productCards.zh).forEach(([m,items])=>{localized[m]=items.map(x=>[x[1],x[0],x[2].map(t=>tags[t]||t),detail(x,tags)]);});
+  return localized;
+}
+productCards.en=makeLocalizedCards(enTag,(x,tags)=>`A layered Molly Tea match with ${x[2].map(t=>tags[t]||t).join(", ")} notes. Tap back and swipe to explore the full mood collection.`);
+productCards.th=makeLocalizedCards(thTag,(x,tags)=>`เมนู Molly Tea ที่มีมิติของ ${x[2].map(t=>tags[t]||t).join(" · ")} แตะกลับและเลื่อนเพื่อดูเมนูอื่นในมู้ดนี้`);
+const couponCopy={
+  zh:"登录 H5 会员即可领取全饮品 85 折券。<br><small>每位会员限领 1 张 · 若尚未领取，可随时从结果页进入</small>",
+  en:"Sign in as an H5 member to claim 15% off any drink.<br><small>One coupon per member · Return here anytime if you have not claimed it</small>",
+  th:"เข้าสู่ระบบสมาชิก H5 เพื่อรับส่วนลด 15% ทุกเมนู<br><small>สมาชิก 1 คนรับได้ 1 ใบ · หากยังไม่ได้รับ สามารถกลับมาที่หน้าผลลัพธ์ได้เสมอ</small>"
+};
+
+let currentLang=localStorage.getItem("mollyTeaLang")||"zh";
+let current=0, answers=Array(4).fill(null), lastWinner=null;
+
+const intro=document.getElementById("intro"),quiz=document.getElementById("quiz"),result=document.getElementById("result");
+const questionArea=document.getElementById("questionArea"),stepText=document.getElementById("stepText"),progressBar=document.getElementById("progressBar");
+const prevBtn=document.getElementById("prevBtn"),nextBtn=document.getElementById("nextBtn");
+
+function applyLanguage(lang){
+  currentLang=lang; localStorage.setItem("mollyTeaLang",lang);
+  document.documentElement.lang=lang==="zh"?"zh-CN":lang;
+  document.querySelectorAll(".lang-btn").forEach(b=>b.classList.toggle("active",b.dataset.lang===lang));
+  const t=i18n[lang];
+  document.getElementById("introEyebrow").innerHTML=t.introEyebrow;
+  document.getElementById("introTitle").innerHTML=t.introTitle;
+  document.getElementById("introSubtitle").innerHTML=t.introSubtitle;
+  document.getElementById("introNote").textContent=t.introNote;
+  document.getElementById("startBtn").textContent=t.start;
+  prevBtn.textContent=t.prev;
+  document.getElementById("resultLabel").textContent=t.resultLabel;
+  document.getElementById("diagnosisTitle").textContent=t.diagnosisTitle;
+  document.getElementById("recommendTitle").textContent=t.recommendTitle;
+  document.getElementById("benefitTitle").textContent=t.benefitTitle;
+  document.getElementById("restartBtn").textContent=t.restart;
+  if(!quiz.classList.contains("hidden")) renderQuestion();
+  if(!result.classList.contains("hidden")&&lastWinner) renderResult(lastWinner);
+}
+document.querySelectorAll(".lang-btn").forEach(b=>b.addEventListener("click",()=>applyLanguage(b.dataset.lang)));
+document.getElementById("startBtn").addEventListener("click",()=>{intro.classList.add("hidden");quiz.classList.remove("hidden");renderQuestion();});
+
+function renderQuestion(){
+  const t=i18n[currentLang],q=t.questions[current];
+  stepText.textContent=String(current+1).padStart(2,"0")+" / 04";
+  progressBar.style.width=((current+1)/4*100)+"%";
+  prevBtn.style.visibility=current===0?"hidden":"visible";
+  nextBtn.textContent=current===3?t.viewResult:t.next;
+  nextBtn.disabled=answers[current]===null;
+  questionArea.innerHTML=`<h2 class="question-title">${q.title}</h2><div class="options">${q.options.map((opt,i)=>{
+    const sp=opt.indexOf(" "); const em=sp>0?opt.slice(0,sp):""; const tx=sp>0?opt.slice(sp+1):opt;
+    return `<button class="option ${answers[current]===i?"selected":""}" data-index="${i}"><span class="emoji">${em}</span><span class="option-text">${tx}</span></button>`;
+  }).join("")}</div>`;
+  questionArea.querySelectorAll(".option").forEach(b=>b.addEventListener("click",()=>{answers[current]=Number(b.dataset.index);renderQuestion();}));
+}
+prevBtn.addEventListener("click",()=>{if(current>0){current--;renderQuestion();}});
+nextBtn.addEventListener("click",()=>{if(answers[current]===null)return;if(current<3){current++;renderQuestion();}else showResult();});
+
+function calculateResult(){
+  const scores={F:0,C:0,S:0,D:0},major={F:0,C:0,S:0,D:0},order=["F","C","S","D"];
+  answers.forEach((a,q)=>Object.entries(questionScores[q][a]).forEach(([k,v])=>{scores[k]+=v;if(v===2)major[k]++;}));
+  return [...order].sort((a,b)=>scores[b]-scores[a]||major[b]-major[a]||order.indexOf(a)-order.indexOf(b))[0];
+}
+function showResult(){
+  lastWinner=calculateResult();quiz.classList.add("hidden");result.classList.remove("hidden");renderResult(lastWinner);window.scrollTo({top:0,behavior:"smooth"});
+}
+function renderResult(w){
+  const t=i18n[currentLang],d=t.results[w];
+  document.getElementById("resultName").textContent=d.name;
+  document.getElementById("resultCn").textContent=d.cn;
+  document.getElementById("resultDesc").textContent=d.desc;
+  document.getElementById("drinkArt").innerHTML=drinkSvgs[w];
+  document.getElementById("couponText").innerHTML=couponCopy[currentLang]||couponCopy.zh;
+  const cards=(productCards[currentLang]||productCards.zh)[w];
+  document.getElementById("drinkList").innerHTML=`<div class="carousel-wrap"><div class="carousel-controls"><span class="swipe-hint">↔ ${currentLang==="th"?"เลื่อนเพื่อดูเมนู":currentLang==="en"?"Swipe or use the arrows":"拖动、滚轮或箭头浏览"}</span><button class="carousel-btn carousel-prev" type="button" aria-label="Previous">‹</button><button class="carousel-btn carousel-next" type="button" aria-label="Next">›</button></div><div class="drink-carousel" tabindex="0">${cards.map((x,i)=>`<button class="drink-card" type="button" aria-label="${x[0]}"><span class="drink-card-inner"><span class="drink-face drink-front"><span class="card-index">MATCH ${String(i+1).padStart(2,"0")}</span><strong>${x[0]}</strong><small>${x[1]}</small><span class="tags">${x[2].map(t=>`<span class="tag">${t}</span>`).join("")}</span></span><span class="drink-face drink-back"><span class="card-index">TASTE NOTES</span><strong>${x[0]}</strong><small>${x[3]}</small><span class="flip-hint">点击返回 / Tap to flip back</span></span></span></button>`).join("")}</div></div>`;
+  const carousel=document.querySelector(".drink-carousel");
+  const cardStep=()=>Math.min(272,carousel.clientWidth*.86);
+  document.querySelector(".carousel-prev").addEventListener("click",()=>carousel.scrollBy({left:-cardStep(),behavior:"smooth"}));
+  document.querySelector(".carousel-next").addEventListener("click",()=>carousel.scrollBy({left:cardStep(),behavior:"smooth"}));
+  carousel.addEventListener("wheel",e=>{if(Math.abs(e.deltaY)<=Math.abs(e.deltaX))return;const max=carousel.scrollWidth-carousel.clientWidth;const canMove=e.deltaY>0?carousel.scrollLeft<max-1:carousel.scrollLeft>1;if(canMove){e.preventDefault();carousel.scrollLeft+=e.deltaY;}},{passive:false});
+  let dragging=false,startX=0,startScroll=0,moved=false;
+  carousel.addEventListener("pointerdown",e=>{dragging=true;moved=false;startX=e.clientX;startScroll=carousel.scrollLeft;carousel.classList.add("dragging");carousel.setPointerCapture(e.pointerId);});
+  carousel.addEventListener("pointermove",e=>{if(!dragging)return;const dx=e.clientX-startX;if(Math.abs(dx)>6)moved=true;carousel.scrollLeft=startScroll-dx;});
+  const endDrag=()=>{dragging=false;carousel.classList.remove("dragging")};
+  carousel.addEventListener("pointerup",endDrag);carousel.addEventListener("pointercancel",endDrag);
+  document.querySelectorAll(".drink-card").forEach(card=>card.addEventListener("click",e=>{if(moved){e.preventDefault();moved=false;return;}card.classList.toggle("flipped");}));
+  const link=document.getElementById("benefitLink"),href=benefitLinks[w];
+  if(href&&href!=="#"){link.href=href;link.textContent=t.benefitLink;link.classList.remove("disabled");}
+  else{link.href="#";link.textContent=t.benefitPending;link.classList.add("disabled");link.onclick=e=>{e.preventDefault();alert(currentLang==="th"?"กรุณาใส่ลิงก์คูปองสมาชิก":currentLang==="en"?"Please connect the member coupon URL":"请接入会员优惠券链接");};}
+}
+document.getElementById("restartBtn").addEventListener("click",()=>{answers=Array(4).fill(null);current=0;lastWinner=null;result.classList.add("hidden");intro.classList.remove("hidden");window.scrollTo({top:0,behavior:"smooth"});});
+applyLanguage(currentLang);
+</script>
+</body>
+</html>
