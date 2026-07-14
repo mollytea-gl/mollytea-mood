@@ -130,22 +130,28 @@
     .carousel-btn{width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:#fffaf0;color:var(--jade-deep);cursor:pointer;font-size:18px;box-shadow:0 6px 16px rgba(47,64,53,.09)}
     .carousel-btn:hover{background:var(--coral-soft);color:#8f3e2d}
     .swipe-hint{margin-right:auto;align-self:center;color:var(--muted);font-size:12px}
-    .drink-card{position:relative;flex:0 0 min(260px,82vw);height:230px;scroll-snap-align:start;perspective:900px;cursor:pointer;border:0;background:transparent;padding:0;text-align:left}
+    .drink-card{position:relative;flex:0 0 min(276px,84vw);height:374px;scroll-snap-align:start;perspective:900px;cursor:pointer;border:0;background:transparent;padding:0;text-align:left}
     .drink-card-inner{position:absolute;inset:0;transition:transform .5s;transform-style:preserve-3d}
     .drink-card.flipped .drink-card-inner{transform:rotateY(180deg)}
-    .drink-face{position:absolute;inset:0;backface-visibility:hidden;border:1px solid rgba(217,111,85,.2);border-radius:18px;padding:20px;background:linear-gradient(155deg,#fffdf8,#f7ead8);box-shadow:0 10px 24px rgba(47,64,53,.09);display:flex;flex-direction:column}
+    .drink-face{position:absolute;inset:0;backface-visibility:hidden;border:1px solid rgba(217,111,85,.2);border-radius:18px;padding:16px;background:linear-gradient(155deg,#fffdf8,#f7ead8);box-shadow:0 10px 24px rgba(47,64,53,.09);display:flex;flex-direction:column;overflow:hidden}
     .drink-back{transform:rotateY(180deg);background:var(--jade-deep);color:#fffdf6}
     .card-index{font:700 11px Arial,sans-serif;color:var(--gold);letter-spacing:.14em}
-    .drink-face strong{font-size:18px;line-height:1.45;margin:18px 0 6px}
+    .product-image-wrap{height:174px;margin:10px -3px 4px;border-radius:14px;overflow:hidden;background:#fff;display:grid;place-items:center;border:1px solid rgba(54,77,62,.07)}
+    .product-image{width:100%;height:100%;object-fit:cover;object-position:center;display:block;transition:transform .35s ease}
+    .drink-card:hover .product-image{transform:scale(1.025)}
+    .drink-face strong{font-size:17px;line-height:1.35;margin:10px 0 4px}
     .drink-face small{color:var(--muted);line-height:1.5}
     .drink-back small{color:rgba(255,255,255,.72)}
     .tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:auto}
     .tag{font:700 11px Arial,"Microsoft YaHei",sans-serif;padding:6px 9px;border-radius:99px;background:var(--paper-deep);color:var(--jade-deep)}
     .flip-hint{margin-top:auto;font-size:11px;color:rgba(255,255,255,.72)}
     .coupon{background:linear-gradient(145deg,var(--jade-deep),#465f4e 60%,#7b5739);color:white;display:flex;flex-direction:column;justify-content:center;position:relative;overflow:hidden}
-    .coupon::after{content:"85";position:absolute;right:-8px;bottom:-34px;font:700 112px/1 Arial,sans-serif;color:rgba(255,255,255,.06);pointer-events:none}
-    .coupon h3{color:white}
-    .coupon-text{font-size:19px;line-height:1.65;font-weight:700}
+    .coupon::after{content:"15%";position:absolute;right:-12px;bottom:-24px;font:700 86px/1 Arial,sans-serif;color:rgba(255,255,255,.055);pointer-events:none}
+    .coupon h3{color:white;font-size:22px;letter-spacing:.04em;margin-bottom:18px}
+    .coupon-text{font-size:14px;line-height:1.6;font-weight:500;position:relative;z-index:1}
+    .coupon-off{display:block;font:800 clamp(38px,6vw,54px)/1 Arial,sans-serif;letter-spacing:-.03em;margin:8px 0 4px;color:#fffaf0}
+    .coupon-label{display:block;font-size:17px;font-weight:700;color:#f3dfbd}
+    .coupon-text small{display:block;margin-top:12px;color:rgba(255,255,255,.72);font-size:11px;font-weight:400}
     .benefit-link{
       display:inline-flex;justify-content:center;align-items:center;margin-top:18px;padding:11px 18px;
       border-radius:999px;background:#fffaf0;color:var(--jade-deep);text-decoration:none;
@@ -171,9 +177,10 @@
       .panel{padding:16px;border-radius:18px}
       .drink-stage{min-height:230px;padding:8px}
       .drink-art{width:min(220px,62vw)}
-      .drink-card{flex-basis:82vw;height:238px}
+      .drink-card{flex-basis:min(82vw,292px);height:378px}
       .carousel-controls{position:sticky;left:0}
-      .coupon{min-height:210px}
+      .coupon{min-height:250px}
+      .coupon h3{font-size:21px}
       .benefit-link{min-height:48px}
       .drink-stage::before,.drink-stage::after{width:58px}
       .result-top{padding-top:28px}
@@ -329,11 +336,11 @@ zh:{
     {title:"选择一种小小的幸福。",options:["🌅 看日落","☔ 听雨声","🌸 闻花香","🎵 听喜欢的歌","🕯️ 点一盏香薰"]}
   ],
   results:{
-    F:{name:"Floral Lover",cn:"花香治愈派",desc:"你习惯在细腻里感受世界。比起喧闹与刺激，你更喜欢温柔、平衡、留有余韵的体验。淡淡花香最能安放你的情绪，也让日常多一点精致与从容。",drinks:[["FLORAL FRESH MILK TEA","花香鲜奶茶系列"],["Premium Jasmine Apple Milk Tea","针王苹果"]],coupon:"花香鲜奶茶系列<br>＋针王苹果 85 折券"},
-    C:{name:"Cheese Addict",cn:"浓郁满足派",desc:"你对快乐的感受直接而丰盛。喜欢有层次、有存在感、能瞬间带来满足的体验。浓郁奶盖与深厚茶香，正适合你认真犒赏自己的时刻。",drinks:[["MATCHA","抹茶系列"],["Tongmu Lapsang Salted Cheese","起司咸酪乳小种"]],coupon:"抹茶系列<br>＋起司咸酪乳小种 85 折券"},
-    S:{name:"Summer Explorer",cn:"水果活力派",desc:"你对新鲜感保持敏锐，喜欢轻快、明亮、带一点冒险的生活节奏。酸甜果香与冰爽口感，会放大你的好奇心，也像把夏日阳光装进一杯茶里。",drinks:[["Jasmine Mango Smoothie","茉莉杨枝甘露"],["Peach Oolong Milk Tea","蜜桃老铁"]],coupon:"茉莉杨枝甘露<br>＋蜜桃老铁 85 折券"},
-    D:{name:"Dessert Lover",cn:"甜品幸福派",desc:"你珍惜那些能让人立刻放松下来的小幸福。柔软、绵密、带着甜意的体验，会让你感到被照顾。对你来说，一杯饮品也是生活里值得认真享受的仪式。",drinks:[["FLORAL SNOWY WHIPPED CREAM","花香奶油顶系列"]],coupon:"花香奶油顶系列<br>85 折券"},
-    T:{name:"Tea Minimalist",cn:"纯茶清醒派",desc:"你欣赏简单而有质感的事物，不需要太多装饰，也能看见本质。清透茶香、自然层次与干净余韵，最符合你松弛、清醒又坚定的内在节奏。",drinks:[["FLORAL BREWED TEA","花香茗茶系列"]],coupon:"花香茗茶系列<br>85 折券"}
+    F:{name:"Floral Lover",cn:"花香治愈派",desc:"你习惯在细腻里感受世界。比起喧闹与刺激，你更喜欢温柔、平衡、留有余韵的体验。淡淡花香最能安放你的情绪，也让日常多一点精致与从容。",drinks:[["FLORAL FRESH MILK TEA","花香鲜奶茶系列"],["Premium Jasmine Apple Milk Tea","针王苹果"]],coupon:"花香鲜奶茶系列<br>＋针王苹果 15% OFF 券"},
+    C:{name:"Cheese Addict",cn:"浓郁满足派",desc:"你对快乐的感受直接而丰盛。喜欢有层次、有存在感、能瞬间带来满足的体验。浓郁奶盖与深厚茶香，正适合你认真犒赏自己的时刻。",drinks:[["MATCHA","抹茶系列"],["Tongmu Lapsang Salted Cheese","起司咸酪乳小种"]],coupon:"抹茶系列<br>＋起司咸酪乳小种 15% OFF 券"},
+    S:{name:"Summer Explorer",cn:"水果活力派",desc:"你对新鲜感保持敏锐，喜欢轻快、明亮、带一点冒险的生活节奏。酸甜果香与冰爽口感，会放大你的好奇心，也像把夏日阳光装进一杯茶里。",drinks:[["Jasmine Mango Smoothie","茉莉杨枝甘露"],["Peach Oolong Milk Tea","蜜桃老铁"]],coupon:"茉莉杨枝甘露<br>＋蜜桃老铁 15% OFF 券"},
+    D:{name:"Dessert Lover",cn:"甜品幸福派",desc:"你珍惜那些能让人立刻放松下来的小幸福。柔软、绵密、带着甜意的体验，会让你感到被照顾。对你来说，一杯饮品也是生活里值得认真享受的仪式。",drinks:[["FLORAL SNOWY WHIPPED CREAM","花香奶油顶系列"]],coupon:"花香奶油顶系列<br>15% OFF 券"},
+    T:{name:"Tea Minimalist",cn:"纯茶清醒派",desc:"你欣赏简单而有质感的事物，不需要太多装饰，也能看见本质。清透茶香、自然层次与干净余韵，最符合你松弛、清醒又坚定的内在节奏。",drinks:[["FLORAL BREWED TEA","花香茗茶系列"]],coupon:"花香茗茶系列<br>15% OFF 券"}
   }
 },
 en:{
@@ -385,7 +392,7 @@ Object.assign(i18n.zh,{
   introSubtitle:"凭第一感觉完成 4 道轻松选择题，<br>找到此刻最适合你的 Molly Tea。",
   introNote:"约 20 秒完成 · 4 种今日心情 · 可重复测试",
   resultLabel:"Today's Tea Mood",diagnosisTitle:"今日心情",recommendTitle:"今天推荐你喝",benefitTitle:"会员专属福利",
-  benefitLink:"登录会员 · 领取全饮品 85 折券",benefitPending:"登录会员 · 领取全饮品 85 折券",restart:"换个心情，再测一次",
+  benefitLink:"登录 Molly Tea 会员 · 领取 15% OFF 券",benefitPending:"登录 Molly Tea 会员 · 领取 15% OFF 券",restart:"换个心情，再测一次",
   questions:[
     {title:"如果今天能收到一份礼物，你想要？",options:["😴 睡到自然醒","🍀 好运一整天","🏖️ 立刻去度假","💸 多一笔零花钱"]},
     {title:"今天只能留下一个，你会选？",options:["🌸 花香","🌊 海浪","🌧️ 雨声","🎁 一个惊喜"]},
@@ -393,17 +400,17 @@ Object.assign(i18n.zh,{
     {title:"不用想太久，选一个今天的 Emoji。",options:["😌","🤍","🌞","✨"]}
   ],
   results:{
-    F:{name:"Bloom Mood",cn:"花香治愈",desc:"今天适合慢一点。让轻柔花香和清雅茶韵陪你把节奏放缓，享受片刻自然、舒服的留白。",drinks:[["FLORAL FRESH MILK TEA","花香鲜奶茶系列"],["Jasmine Milk Tea","茉莉奶白"],["Gardenia Milk Tea","栀子奶白"]],coupon:"首次完成可领取<br>全饮品 85 折券"},
-    C:{name:"Cozy Mood",cn:"浓郁满足",desc:"今天值得好好奖励自己。绵密、顺滑又有层次的奶香与芝士感，刚好接住你想被治愈的心情。",drinks:[["NEW-IN & MATCHA","新品及抹茶系列"],["FLORAL SNOWY WHIPPED CREAM","花香奶油顶系列"],["Tongmu Lapsang Salted Cheese","起司咸酪乳小种"]],coupon:"首次完成可领取<br>全饮品 85 折券"},
-    S:{name:"Summer Mood",cn:"清爽活力",desc:"今天想要轻快一点。清甜果香、椰香与冰爽茶感，会给日常加上一阵明亮又自在的风。",drinks:[["Jasmine Mango Smoothie","茉莉杨枝甘露"],["FLORAL BREWED TEA","花香茗茶系列"],["Jasmine Coconut","茉莉椰"]],coupon:"首次完成可领取<br>全饮品 85 折券"},
-    D:{name:"Curious Mood",cn:"好奇尝鲜",desc:"今天想来点不一样。独特搭配与层层展开的风味，会让每一口都多一点新鲜感和意想不到的惊喜。",drinks:[["Premium Jasmine Apple Milk Tea","针王苹果"],["Peach Oolong Milk Tea","蜜桃老铁"],["Pistachio Floral Tea","开心果花香茶系列"]],coupon:"首次完成可领取<br>全饮品 85 折券"}
+    F:{name:"Bloom Mood",cn:"花香治愈",desc:"今天适合慢一点。让轻柔花香和清雅茶韵陪你把节奏放缓，享受片刻自然、舒服的留白。",drinks:[["FLORAL FRESH MILK TEA","花香鲜奶茶系列"],["Jasmine Milk Tea","茉莉奶白"],["Gardenia Milk Tea","栀子奶白"]],coupon:"会员可领取<br>全饮品 15% OFF 券"},
+    C:{name:"Cozy Mood",cn:"浓郁满足",desc:"今天值得好好奖励自己。绵密、顺滑又有层次的奶香与芝士感，刚好接住你想被治愈的心情。",drinks:[["NEW-IN & MATCHA","新品及抹茶系列"],["FLORAL SNOWY WHIPPED CREAM","花香奶油顶系列"],["Tongmu Lapsang Salted Cheese","起司咸酪乳小种"]],coupon:"会员可领取<br>全饮品 15% OFF 券"},
+    S:{name:"Summer Mood",cn:"清爽活力",desc:"今天想要轻快一点。清甜果香、椰香与冰爽茶感，会给日常加上一阵明亮又自在的风。",drinks:[["Jasmine Mango Smoothie","茉莉杨枝甘露"],["FLORAL BREWED TEA","花香茗茶系列"],["Jasmine Coconut","茉莉椰"]],coupon:"会员可领取<br>全饮品 15% OFF 券"},
+    D:{name:"Curious Mood",cn:"好奇尝鲜",desc:"今天想来点不一样。独特搭配与层层展开的风味，会让每一口都多一点新鲜感和意想不到的惊喜。",drinks:[["Premium Jasmine Apple Milk Tea","针王苹果"],["Peach Oolong Milk Tea","蜜桃老铁"],["Pistachio Floral Tea","开心果花香茶系列"]],coupon:"会员可领取<br>全饮品 15% OFF 券"}
   }
 });
 Object.assign(i18n.en,{
   introEyebrow:"✦ What's Your Tea Mood Today?",introTitle:"What's Your<br>Tea Mood Today?",
   introSubtitle:"Go with your first instinct through four quick picks<br>and meet the Molly Tea that fits this moment.",
   introNote:"About 20 seconds · 4 moods · Play anytime",resultLabel:"Today's Tea Mood",diagnosisTitle:"Your Mood Today",recommendTitle:"Your Tea Match",benefitTitle:"Member Benefit",
-  benefitLink:"Sign in · Claim 15% Off Any Drink",benefitPending:"Sign in · Claim 15% Off Any Drink",restart:"Try Another Mood",
+  benefitLink:"Sign in to Molly Tea · Claim 15% OFF",benefitPending:"Sign in to Molly Tea · Claim 15% OFF",restart:"Try Another Mood",
   questions:[
     {title:"If today could give you one gift, what would it be?",options:["😴 Sleep in","🍀 Good luck all day","🏖️ An instant vacation","💸 Extra spending money"]},
     {title:"You can keep only one today. Pick one.",options:["🌸 Flowers","🌊 Ocean waves","🌧️ Rain","🎁 A surprise"]},
@@ -421,7 +428,7 @@ Object.assign(i18n.th,{
   introEyebrow:"✦ What's Your Tea Mood Today?",introTitle:"วันนี้คุณอยู่ใน<br>Tea Mood แบบไหน?",
   introSubtitle:"เลือกตามความรู้สึกแรกจาก 4 คำถามสั้น ๆ<br>แล้วพบกับ Molly Tea ที่เข้ากับวันนี้ของคุณ",
   introNote:"ประมาณ 20 วินาที · 4 มู้ด · เล่นซ้ำได้ทุกวัน",resultLabel:"Today's Tea Mood",diagnosisTitle:"มู้ดของคุณวันนี้",recommendTitle:"เมนูที่เหมาะกับคุณวันนี้",benefitTitle:"สิทธิพิเศษสำหรับสมาชิก",
-  benefitLink:"เข้าสู่ระบบ · รับส่วนลด 15% ทุกเมนู",benefitPending:"เข้าสู่ระบบ · รับส่วนลด 15% ทุกเมนู",restart:"ลองมู้ดใหม่อีกครั้ง",
+  benefitLink:"เข้าสู่ระบบสมาชิก Molly Tea · รับคูปอง 15% OFF",benefitPending:"เข้าสู่ระบบสมาชิก Molly Tea · รับคูปอง 15% OFF",restart:"ลองมู้ดใหม่อีกครั้ง",
   questions:[
     {title:"ถ้าวันนี้ได้รับของขวัญ 1 อย่าง คุณอยากได้อะไร?",options:["😴 ตื่นสายแบบไม่ต้องรีบ","🍀 โชคดีตลอดวัน","🏖️ ได้ไปเที่ยวทันที","💸 เงินใช้เพิ่ม"]},
     {title:"วันนี้เลือกเก็บไว้ได้แค่อย่างเดียว จะเลือกอะไร?",options:["🌸 กลิ่นดอกไม้","🌊 เสียงคลื่น","🌧️ เสียงฝน","🎁 เซอร์ไพรส์"]},
@@ -439,48 +446,50 @@ Object.assign(i18n.th,{
 const productCards={
   zh:{
     F:[
-      ["茉莉奶白","Jasmine Milk Tea",["茉莉","鲜醇","纯粹"],"七窨茉莉入高山茶，搭配优质牛乳，甘醇鲜爽，香气悠长。"],
-      ["栀子奶白","Gardenia Milk Tea",["栀子","清新","鲜甜"],"高山栀子与绿茶相融，奶鲜引出高扬花香，清新爽口。"],
-      ["桂花龙井","Osmanthus Longjing",["桂香","清冽","回甘"],"新嫩龙井拼配馥郁金桂，茶香清冽，桂香久久回荡。"],
-      ["白兰","White Champaca Milk Tea",["兰香","丝滑","幽长"],"高山茶窨入白兰花香，搭配牛乳，鲜醇爽口、丝丝甘滑。"],
-      ["白兰金萱","Champaca Jinxuan",["花香","清甜","奶糖香"],"天然奶香金萱与高扬兰香相融，尾调带细细奶糖香。"]
+      ["茉莉奶白","Premium Jasmine Milk Tea","ชานมมะลิพรีเมียม",["茉莉","鲜醇","纯粹"],"七窨茉莉入高山茶，搭配优质牛乳，甘醇鲜爽，香气悠长。","jasmine-milk-tea.webp"],
+      ["栀子奶白","Gardenia Milk Tea","ชานมการ์ดีเนีย",["栀子","清新","鲜甜"],"高山栀子与绿茶相融，奶鲜引出高扬花香，清新爽口。","gardenia-milk-tea.webp"],
+      ["桂花龙井","Osmanthus Milk Tea","ชานมกุ้ยฮวาหลงจิ่ง",["桂香","清冽","回甘"],"新嫩龙井拼配馥郁金桂，茶香清冽，桂香久久回荡。","osmanthus-milk-tea.webp"],
+      ["白兰","White Champaca Milk Tea","ชานมแมกโนเลียขาว",["兰香","丝滑","幽长"],"高山茶窨入白兰花香，搭配牛乳，鲜醇爽口、丝丝甘滑。","white-champaca-milk-tea.webp"],
+      ["白兰金萱","White Champaca Oolong Milk Tea","ชานมอู่หลงแมกโนเลียขาว",["花香","清甜","奶糖香"],"天然奶香金萱与高扬兰香相融，尾调带细细奶糖香。","white-champaca-oolong-milk-tea.webp"]
     ],
     C:[
-      ["雪绒抹茶针王","Snowy Matcha Jasmine",["抹茶","芝士","绵密"],"雪绒抹茶芝士奶盖、浓萃抹茶与茉莉针王层层融合，顺滑饱满。"],
-      ["雪绒抹茶白兰","Snowy Matcha Champaca",["抹茶","兰香","顺滑"],"浓萃抹茶、兰香甘露茶与咸芝士厚牛乳交织，香气细腻留长。"],
-      ["抹茶茉莉咸酪乳","Matcha Jasmine Cheese",["绿意","花香","浓郁"],"起司咸酪乳融入茉莉针王，抹茶丰沛，花香飘逸。"],
-      ["一朵茉莉花","Jasmine Snowy Cream",["云顶","碧根果","奶醇"],"茉莉云顶与升级茉莉奶白相遇，顶部碧根果碎增添酥脆口感。"],
-      ["起司咸酪乳小种","Lapsang Salted Cheese",["小种","榛果","醇厚"],"桐木关小种搭配咸酪乳、榛果芝士与可可粉，整体奶香醇厚。"]
+      ["雪绒抹茶针王","Velvety Matcha Supreme","Velvety Matcha Supreme",["抹茶","芝士","绵密"],"雪绒抹茶芝士奶盖、浓萃抹茶与茉莉针王层层融合，顺滑饱满。","velvety-matcha-supreme.webp"],
+      ["雪绒抹茶白兰","Velvety Champaca Green Tea","Velvety Champaca Green Tea",["抹茶","兰香","顺滑"],"浓萃抹茶、兰香甘露茶与咸芝士厚牛乳交织，香气细腻留长。","velvety-champaca-green-tea.webp"],
+      ["抹茶茉莉咸酪乳","Matcha Jasmine Salted Cheese","ชามะลิมัทฉะซอลท์ชีส",["绿意","花香","浓郁"],"起司咸酪乳融入茉莉针王，抹茶丰沛，花香飘逸。","matcha-jasmine-salted-cheese.webp"],
+      ["一朵茉莉花","Snowy Jasmine","สโนวี่มะลิ",["云顶","碧根果","奶醇"],"茉莉云顶与升级茉莉奶白相遇，顶部碧根果碎增添酥脆口感。","snowy-jasmine.webp"],
+      ["起司咸酪乳小种","Tongmu Lapsang Salted Cheese","ชานมถงมู่ซอลท์ชีส",["小种","榛果","醇厚"],"桐木关小种搭配咸酪乳、榛果芝士与可可粉，整体奶香醇厚。","tongmu-lapsang-salted-cheese.webp"]
     ],
     S:[
-      ["茉莉杨枝甘露","Jasmine Mango Smoothie",["芒果","西柚","冰爽"],"绵密芒果冰沙加入新鲜芒果与爆汁西柚，融入顺滑椰乳。"],
-      ["茉莉椰","Jasmine Coconut",["椰水","花香","甘润"],"茉莉针王搭配泰国香椰水，芳香裹椰甜，鲜爽沁心。"],
-      ["小兰花","Little Orchid",["兰香","竹叶","清甜"],"兰香甘露融合泰国香椰水，竹叶香、幽兰茶香与椰香依次展开。"],
-      ["栀子冰茶","Gardenia Iced Tea",["栀子","干净","鲜灵"],"六窨一提凝入栀子花香，茶底清雅，尾调干净鲜灵。"],
-      ["针王冰茶","Jasmine King Iced Tea",["茉莉","毫香","微甜"],"高等级茉莉针王鲜灵甘爽，尾调带冰糖感微甜。"]
+      ["茉莉杨枝甘露","Jasmine Mango Smoothie","ชามะลิสมูทตี้มะม่วง",["芒果","西柚","冰爽"],"绵密芒果冰沙加入新鲜芒果与爆汁西柚，融入顺滑椰乳。","jasmine-mango-smoothie.webp"],
+      ["茉莉椰","Jasmine Coconut","ชามะลิมะพร้าว",["椰水","花香","甘润"],"茉莉针王搭配泰国香椰水，芳香裹椰甜，鲜爽沁心。","jasmine-coconut.webp"],
+      ["小兰花","White Champaca Coconut","ชาแมกโนเลียขาวมะพร้าว",["兰香","竹叶","清甜"],"兰香甘露融合泰国香椰水，竹叶香、幽兰茶香与椰香依次展开。","white-champaca-coconut.webp"],
+      ["栀子冰茶","Gardenia Iced Tea","ชาการ์ดีเนีย",["栀子","干净","鲜灵"],"六窨一提凝入栀子花香，茶底清雅，尾调干净鲜灵。","gardenia-iced-tea.webp"],
+      ["针王冰茶","Premium Jasmine Iced Tea","ชามะลิพรีเมียม",["茉莉","毫香","微甜"],"高等级茉莉针王鲜灵甘爽，尾调带冰糖感微甜。","premium-jasmine-iced-tea.webp"]
     ],
     D:[
-      ["针王苹果","Jasmine Apple Milk Tea",["苹果","茉莉","丝滑"],"鲜榨苹果果香融入茉莉针王与牛乳，果香、花香和茶香层层展开。"],
-      ["蜜桃老铁","Peach Oolong Milk Tea",["蜜桃","老铁","话梅香"],"沁甜蜜桃搭配五年陈老铁与牛乳，尾调带粉糯奶油香。"],
-      ["桐木关小种","Tongmu Lapsang",["蜜桃","桂圆","茶韵"],"珍贵小种经创新摇青激发蜜桃桂圆香，茶汤温润，茶韵悠长。"],
-      ["开心果茉莉椰","Pistachio Jasmine Coconut",["开心果","椰香","芝士"],"茉莉茶底与椰子水加入开心果芝士，清甜与香醇依次绽放。"],
-      ["开心果小兰花","Pistachio Little Orchid",["坚果","兰香","椰香"],"开心果芝士、兰香甘露与椰子水交织，层次饱满又轻柔。"]
+      ["针王苹果","Premium Jasmine Apple Milk Tea","ชานมมะลิแอปเปิล",["苹果","茉莉","丝滑"],"鲜榨苹果果香融入茉莉针王与牛乳，果香、花香和茶香层层展开。","premium-jasmine-apple-milk-tea.webp"],
+      ["蜜桃老铁","Peach Oolong Milk Tea","ชานมพีชอู่หลงเถี่ยกวน",["蜜桃","老铁","话梅香"],"沁甜蜜桃搭配五年陈老铁与牛乳，尾调带粉糯奶油香。","peach-oolong-milk-tea.webp"],
+      ["桐木关小种","Tongmu Lapsang Milk Tea","ชานมถงมู่",["蜜桃","桂圆","茶韵"],"珍贵小种经创新摇青激发蜜桃桂圆香，茶汤温润，茶韵悠长。","tongmu-lapsang-milk-tea.webp"],
+      ["开心果茉莉椰","Pistachio Jasmine Coconut","พิสตาชิโอชามะลิมะพร้าว",["开心果","椰香","芝士"],"茉莉茶底与椰子水加入开心果芝士，清甜与香醇依次绽放。","pistachio-jasmine-coconut.webp"],
+      ["开心果小兰花","Pistachio White Champaca Coconut","พิสตชิโอชาแมกโนเลียขาวมะพร้าว",["坚果","兰香","椰香"],"开心果芝士、兰香甘露与椰子水交织，层次饱满又轻柔。","pistachio-white-champaca-coconut.webp"]
     ]
   }
 };
 const enTag={"茉莉":"Jasmine","鲜醇":"Mellow","纯粹":"Pure","栀子":"Gardenia","清新":"Fresh","鲜甜":"Bright","桂香":"Osmanthus","清冽":"Crisp","回甘":"Clean finish","兰香":"Floral","丝滑":"Silky","幽长":"Lingering","花香":"Floral","清甜":"Light sweet","奶糖香":"Milky","抹茶":"Matcha","芝士":"Cheese","绵密":"Creamy","顺滑":"Smooth","绿意":"Vibrant","浓郁":"Rich","云顶":"Whipped","碧根果":"Pecan","奶醇":"Milky","小种":"Lapsang","榛果":"Hazelnut","醇厚":"Full-bodied","芒果":"Mango","西柚":"Pomelo","冰爽":"Icy","椰水":"Coconut","甘润":"Refreshing","竹叶":"Bamboo","干净":"Clean","鲜灵":"Bright","毫香":"Tea aroma","微甜":"Light sweet","苹果":"Apple","话梅香":"Plum","蜜桃":"Peach","老铁":"Aged oolong","桂圆":"Longan","茶韵":"Tea finish","开心果":"Pistachio","椰香":"Coconut","坚果":"Nutty"};
 const thTag={"茉莉":"มะลิ","鲜醇":"กลมกล่อม","纯粹":"บริสุทธิ์","栀子":"การ์ดีเนีย","清新":"สดชื่น","鲜甜":"หวานสดใส","桂香":"หอมอบเชย","清冽":"ใสสะอาด","回甘":"หวานปลาย","兰香":"หอมดอกไม้","丝滑":"นุ่มลื่น","幽长":"หอมยาว","花香":"กลิ่นดอกไม้","清甜":"หวานเบา","奶糖香":"หอมนม","抹茶":"มัทฉะ","芝士":"ชีส","绵密":"เนียนนุ่ม","顺滑":"ละมุน","绿意":"สดใส","浓郁":"เข้มข้น","云顶":"วิปครีม","碧根果":"พีแคน","奶醇":"นมหอม","小种":"แลปซาง","榛果":"เฮเซลนัต","醇厚":"เต็มรส","芒果":"มะม่วง","西柚":"ส้มโอ","冰爽":"เย็นสดชื่น","椰水":"น้ำมะพร้าว","甘润":"สดชื่น","竹叶":"ใบไผ่","干净":"สะอาด","鲜灵":"หอมสด","毫香":"กลิ่นชา","微甜":"หวานน้อย","苹果":"แอปเปิล","话梅香":"บ๊วย","蜜桃":"พีช","老铁":"อู่หลงบ่ม","桂圆":"ลำไย","茶韵":"รสชาติดี","开心果":"พิสตาชิโอ","椰香":"มะพร้าว","坚果":"ถั่วหอม"};
-function makeLocalizedCards(tags,detail){
+const sourceProductCards=productCards.zh;
+function makeLocalizedCards(lang,tags,detail){
   const localized={};
-  Object.entries(productCards.zh).forEach(([m,items])=>{localized[m]=items.map(x=>[x[1],x[0],x[2].map(t=>tags[t]||t),detail(x,tags)]);});
+  Object.entries(sourceProductCards).forEach(([m,items])=>{localized[m]=items.map(x=>lang==="th"?[x[2],x[1],x[3].map(t=>tags[t]||t),detail(x,tags),x[5]]:[x[1],x[0],x[3].map(t=>tags[t]||t),detail(x,tags),x[5]]);});
   return localized;
 }
-productCards.en=makeLocalizedCards(enTag,(x,tags)=>`A layered Molly Tea match with ${x[2].map(t=>tags[t]||t).join(", ")} notes. Tap back and swipe to explore the full mood collection.`);
-productCards.th=makeLocalizedCards(thTag,(x,tags)=>`เมนู Molly Tea ที่มีมิติของ ${x[2].map(t=>tags[t]||t).join(" · ")} แตะกลับและเลื่อนเพื่อดูเมนูอื่นในมู้ดนี้`);
+productCards.en=makeLocalizedCards("en",enTag,(x,tags)=>`A layered Molly Tea match with ${x[3].map(t=>tags[t]||t).join(", ")} notes. Tap back and swipe to explore the full mood collection.`);
+productCards.th=makeLocalizedCards("th",thTag,(x,tags)=>`เมนู Molly Tea ที่มีมิติของ ${x[3].map(t=>tags[t]||t).join(" · ")} แตะกลับและเลื่อนเพื่อดูเมนูอื่นในมู้ดนี้`);
+productCards.zh=Object.fromEntries(Object.entries(sourceProductCards).map(([m,items])=>[m,items.map(x=>[x[0],x[1],x[3],x[4],x[5]])]));
 const couponCopy={
-  zh:"登录 H5 会员即可领取全饮品 85 折券。<br><small>每位会员限领 1 张 · 若尚未领取，可随时从结果页进入</small>",
-  en:"Sign in as an H5 member to claim 15% off any drink.<br><small>One coupon per member · Return here anytime if you have not claimed it</small>",
-  th:"เข้าสู่ระบบสมาชิก H5 เพื่อรับส่วนลด 15% ทุกเมนู<br><small>สมาชิก 1 คนรับได้ 1 ใบ · หากยังไม่ได้รับ สามารถกลับมาที่หน้าผลลัพธ์ได้เสมอ</small>"
+  zh:"登录 Molly Tea 会员即可领取<span class=\"coupon-off\">15% OFF</span><span class=\"coupon-label\">全饮品优惠券</span><small>每位会员限领 1 张 · 若尚未领取，可随时从结果页进入</small>",
+  en:"Sign in to your Molly Tea membership and claim<span class=\"coupon-off\">15% OFF</span><span class=\"coupon-label\">ANY DRINK COUPON</span><small>One coupon per member · Return here anytime if you have not claimed it</small>",
+  th:"เข้าสู่ระบบสมาชิก Molly Tea เพื่อรับ<span class=\"coupon-off\">15% OFF</span><span class=\"coupon-label\">คูปองส่วนลดทุกเมนู</span><small>สมาชิก 1 คนรับได้ 1 ใบ · หากยังไม่ได้รับ สามารถกลับมาที่หน้าผลลัพธ์ได้เสมอ</small>"
 };
 
 let currentLang=localStorage.getItem("mollyTeaLang")||"zh";
@@ -544,7 +553,7 @@ function renderResult(w){
   document.getElementById("drinkArt").innerHTML=drinkSvgs[w];
   document.getElementById("couponText").innerHTML=couponCopy[currentLang]||couponCopy.zh;
   const cards=(productCards[currentLang]||productCards.zh)[w];
-  document.getElementById("drinkList").innerHTML=`<div class="carousel-wrap"><div class="carousel-controls"><span class="swipe-hint">↔ ${currentLang==="th"?"เลื่อนเพื่อดูเมนู":currentLang==="en"?"Swipe or use the arrows":"拖动、滚轮或箭头浏览"}</span><button class="carousel-btn carousel-prev" type="button" aria-label="Previous">‹</button><button class="carousel-btn carousel-next" type="button" aria-label="Next">›</button></div><div class="drink-carousel" tabindex="0">${cards.map((x,i)=>`<button class="drink-card" type="button" aria-label="${x[0]}"><span class="drink-card-inner"><span class="drink-face drink-front"><span class="card-index">MATCH ${String(i+1).padStart(2,"0")}</span><strong>${x[0]}</strong><small>${x[1]}</small><span class="tags">${x[2].map(t=>`<span class="tag">${t}</span>`).join("")}</span></span><span class="drink-face drink-back"><span class="card-index">TASTE NOTES</span><strong>${x[0]}</strong><small>${x[3]}</small><span class="flip-hint">点击返回 / Tap to flip back</span></span></span></button>`).join("")}</div></div>`;
+  document.getElementById("drinkList").innerHTML=`<div class="carousel-wrap"><div class="carousel-controls"><span class="swipe-hint">↔ ${currentLang==="th"?"เลื่อนเพื่อดูเมนู":currentLang==="en"?"Swipe or use the arrows":"拖动、滚轮或箭头浏览"}</span><button class="carousel-btn carousel-prev" type="button" aria-label="Previous">‹</button><button class="carousel-btn carousel-next" type="button" aria-label="Next">›</button></div><div class="drink-carousel" tabindex="0">${cards.map((x,i)=>`<button class="drink-card" type="button" aria-label="${x[0]}"><span class="drink-card-inner"><span class="drink-face drink-front"><span class="card-index">MATCH ${String(i+1).padStart(2,"0")}</span><span class="product-image-wrap"><img class="product-image" src="assets/products/${x[4]}" alt="${x[0]}" loading="lazy" decoding="async"></span><strong>${x[0]}</strong><small>${x[1]}</small><span class="tags">${x[2].map(t=>`<span class="tag">${t}</span>`).join("")}</span></span><span class="drink-face drink-back"><span class="card-index">TASTE NOTES</span><strong>${x[0]}</strong><small>${x[3]}</small><span class="flip-hint">点击返回 / Tap to flip back</span></span></span></button>`).join("")}</div></div>`;
   const carousel=document.querySelector(".drink-carousel");
   const cardStep=()=>Math.min(272,carousel.clientWidth*.86);
   document.querySelector(".carousel-prev").addEventListener("click",()=>carousel.scrollBy({left:-cardStep(),behavior:"smooth"}));
