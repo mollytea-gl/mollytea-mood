@@ -82,8 +82,9 @@
     .intro{max-width:860px;margin:0 auto;text-align:center;padding:72px 0 62px}
     .eyebrow{display:inline-flex;align-items:center;gap:10px;padding:0;background:transparent;font:700 11px Arial,sans-serif;letter-spacing:.24em;color:#746b60;text-transform:uppercase}
     .eyebrow::before,.eyebrow::after{content:"";width:24px;height:1px;background:#b8aa96}
-    .intro h1{font-size:clamp(38px,5.7vw,64px);line-height:1.12;font-weight:500;margin:25px 0 18px;letter-spacing:.015em;white-space:nowrap}
-    .subtitle{max-width:650px;margin:0 auto 32px;color:var(--muted);line-height:1.9;font-size:15px}
+    .intro h1{font-size:clamp(30px,4.5vw,52px);line-height:1.12;font-weight:500;margin:25px 0 16px;letter-spacing:.015em;white-space:nowrap}
+    .subtitle{max-width:none;margin:0 auto 32px;color:var(--muted);line-height:1.7;font-size:15px;white-space:nowrap}
+    html[lang="en"] .intro h1,html[lang="th"] .intro h1{font-family:Georgia,"Times New Roman",serif;font-size:clamp(25px,4vw,44px);letter-spacing:.01em}
     .primary{
       border:0;border-radius:999px;padding:14px 30px;cursor:pointer;
       background:linear-gradient(135deg,var(--jade-deep),var(--jade));color:#fffdf6;font:700 14px Arial,"Microsoft YaHei",sans-serif;
@@ -202,7 +203,11 @@
       .shell{border-radius:22px}
       .content{padding:22px 12px 28px}
       .intro{padding:58px 8px 48px}
-      .intro h1{font-size:clamp(31px,9.2vw,43px);white-space:normal;margin-top:22px}
+      .intro h1{font-size:clamp(20px,6vw,34px);white-space:nowrap;margin-top:22px}
+      .subtitle{font-size:clamp(13px,3.8vw,15px);white-space:nowrap;letter-spacing:-.02em}
+      html[lang="en"] .intro h1,html[lang="th"] .intro h1{font-size:clamp(14px,4.2vw,23px);letter-spacing:0}
+      html[lang="en"] .subtitle{font-size:clamp(11px,3.25vw,14px)}
+      html[lang="th"] .subtitle{font-size:clamp(10px,3.05vw,13px)}
       .eyebrow{font-size:10px;letter-spacing:.17em}
       .eyebrow::before,.eyebrow::after{width:15px}
       .question-title{font-size:clamp(24px,7vw,32px);margin-bottom:20px}
@@ -242,8 +247,8 @@
       <div class="content">
         <section id="intro" class="intro">
           <div id="introEyebrow" class="eyebrow">What's Your Tea Mood Today?</div>
-          <h1 id="introTitle">今天想喝哪一种心情？</h1>
-          <p id="introSubtitle" class="subtitle">凭第一感觉完成 4 道轻松选择题，找到此刻最适合你的 Molly Tea。</p>
+          <h1 id="introTitle">今天你的心情，适合哪一杯？</h1>
+          <p id="introSubtitle" class="subtitle">解锁你今天的 Molly Tea 风格</p>
           <button id="startBtn" class="primary">开始测试</button>
           <div id="introNote" class="small-note">约 30 秒完成 · 共 5 种人格</div>
         </section>
@@ -436,8 +441,8 @@ th:{
 /* Today's Mood Ver.2 — confirmed direction from the project discussion. */
 Object.assign(i18n.zh,{
   introEyebrow:"What's Your Tea Mood Today?",
-  introTitle:"今天想喝哪一种心情？",
-  introSubtitle:"凭第一感觉完成 4 道轻松选择题，找到此刻最适合你的 Molly Tea。",
+  introTitle:"今天你的心情，适合哪一杯？",
+  introSubtitle:"解锁你今天的 Molly Tea 风格",
   introNote:"约 20 秒完成 · 4 种今日心情 · 可重复测试",
   resultLabel:"Today's Tea Mood",diagnosisTitle:"今日心情",recommendTitle:"今天推荐你喝",benefitTitle:"会员专属福利",
   benefitLink:"登录 Molly Tea 会员 · 领取 15% OFF 券",benefitPending:"登录 Molly Tea 会员 · 领取 15% OFF 券",restart:"换个心情，再测一次",
@@ -455,8 +460,8 @@ Object.assign(i18n.zh,{
   }
 });
 Object.assign(i18n.en,{
-  introEyebrow:"What's Your Tea Mood Today?",introTitle:"What's Your Tea Mood Today?",
-  introSubtitle:"Go with your first instinct through four quick picks and meet the Molly Tea that fits this moment.",
+  introEyebrow:"What's Your Tea Mood Today?",introTitle:"WHAT’S YOUR MOLLY TEA MOOD TODAY?",
+  introSubtitle:"Discover Your Molly Tea Mood for Today.",
   introNote:"About 20 seconds · 4 moods · Play anytime",resultLabel:"Today's Tea Mood",diagnosisTitle:"Your Mood Today",recommendTitle:"Your Tea Match",benefitTitle:"Member Benefit",
   benefitLink:"Sign in to Molly Tea · Claim 15% OFF",benefitPending:"Sign in to Molly Tea · Claim 15% OFF",restart:"Try Another Mood",
   questions:[
@@ -473,8 +478,8 @@ Object.assign(i18n.en,{
   }
 });
 Object.assign(i18n.th,{
-  introEyebrow:"What's Your Tea Mood Today?",introTitle:"วันนี้คุณอยู่ใน Tea Mood แบบไหน?",
-  introSubtitle:"เลือกตามความรู้สึกแรกจาก 4 คำถามสั้น ๆ แล้วพบกับ Molly Tea ที่เข้ากับวันนี้ของคุณ",
+  introEyebrow:"What's Your Tea Mood Today?",introTitle:"WHAT’S YOUR MOLLY TEA MOOD TODAY?",
+  introSubtitle:"ค้นพบสไตล์ Molly Tea ที่ใช่สำหรับคุณในวันนี้",
   introNote:"ประมาณ 20 วินาที · 4 มู้ด · เล่นซ้ำได้ทุกวัน",resultLabel:"Today's Tea Mood",diagnosisTitle:"มู้ดของคุณวันนี้",recommendTitle:"เมนูที่เหมาะกับคุณวันนี้",benefitTitle:"สิทธิพิเศษสำหรับสมาชิก",
   benefitLink:"เข้าสู่ระบบสมาชิก Molly Tea · รับคูปอง 15% OFF",benefitPending:"เข้าสู่ระบบสมาชิก Molly Tea · รับคูปอง 15% OFF",restart:"ลองมู้ดใหม่อีกครั้ง",
   questions:[
