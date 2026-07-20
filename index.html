@@ -169,10 +169,16 @@
     .prop-image{width:100%;height:100%;object-fit:cover;object-position:right center;display:block;filter:saturate(.94) contrast(.99);transform:scale(1.04)}
     .drink-back.missing{background:linear-gradient(145deg,rgba(255,255,255,.7),var(--mood-soft));border-style:dashed}
     .back-wash{position:absolute;inset:0;background:linear-gradient(to top,color-mix(in srgb,var(--mood-bg) 42%,transparent),transparent 45%);pointer-events:none}
-    .flip-back{position:absolute;right:16px;bottom:16px;width:42px;height:42px;border-radius:50%;display:grid;place-items:center;background:rgba(255,255,255,.82);color:var(--mood-deep);font:700 20px Arial,sans-serif;box-shadow:0 8px 18px rgba(50,45,38,.12)}
-    .tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:auto;padding-top:10px}
+    .flip-back{position:absolute;right:16px;bottom:16px;min-height:36px;border-radius:999px;display:flex;align-items:center;gap:7px;padding:8px 12px;background:rgba(255,255,255,.82);color:var(--mood-deep);font:700 11px Arial,"Microsoft YaHei",sans-serif;box-shadow:0 8px 18px rgba(50,45,38,.12)}
+    .tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px;padding-top:8px}
     .tag{font:700 10px Arial,"Microsoft YaHei",sans-serif;letter-spacing:.08em;padding:6px 9px;border-radius:99px;background:rgba(238,214,210,.62);color:#80534d;border:1px solid rgba(201,135,128,.24)}
-    .flip-hint{margin-top:auto;font-size:11px;color:rgba(255,255,255,.72)}
+    .flip-prompt{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:auto;padding-top:10px;border-top:1px solid color-mix(in srgb,var(--mood-accent) 20%,transparent);color:var(--mood-deep);font:700 10px/1.35 Arial,"Microsoft YaHei",sans-serif;letter-spacing:.035em}
+    .flip-icon{width:27px;height:27px;flex:0 0 27px;border-radius:50%;display:grid;place-items:center;background:color-mix(in srgb,var(--mood-bg) 72%,white);font-size:15px;animation:flipPulse 2.4s ease-in-out infinite}
+    @keyframes flipPulse{0%,100%{transform:rotate(0deg);box-shadow:0 0 0 0 color-mix(in srgb,var(--mood-accent) 18%,transparent)}50%{transform:rotate(18deg);box-shadow:0 0 0 6px transparent}}
+    .journey-cue{position:fixed;left:50%;bottom:calc(18px + env(safe-area-inset-bottom));z-index:50;transform:translateX(-50%);border:1px solid rgba(255,255,255,.42);border-radius:999px;padding:10px 17px 11px;background:rgba(53,65,57,.92);color:#fffdf6;box-shadow:0 12px 34px rgba(37,42,37,.26);backdrop-filter:blur(12px);cursor:pointer;display:flex;align-items:center;gap:9px;white-space:nowrap;font:700 12px Arial,"Microsoft YaHei",sans-serif;letter-spacing:.04em;transition:opacity .22s ease,transform .22s ease}
+    .journey-cue:hover{transform:translateX(-50%) translateY(-2px)}
+    .journey-arrows{display:inline-block;font-size:17px;line-height:.7;animation:cueDown 1.45s ease-in-out infinite}
+    @keyframes cueDown{0%,100%{transform:translateY(-2px);opacity:.62}50%{transform:translateY(3px);opacity:1}}
     .coupon{min-height:230px;background:linear-gradient(145deg,var(--jade-deep),#465f4e 60%,#7b5739);color:white;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;position:relative;overflow:hidden;padding:30px clamp(24px,5vw,46px)}
     .coupon::after{content:"15%";position:absolute;right:-12px;bottom:-24px;font:700 86px/1 Arial,sans-serif;color:rgba(255,255,255,.055);pointer-events:none}
     .coupon h3{color:white;font-size:22px;letter-spacing:.04em;margin-bottom:18px}
@@ -210,6 +216,7 @@
       .drink-art{width:min(220px,62vw)}
       .drink-card{flex-basis:min(255px,62vw);height:414px}
       .product-image-wrap{height:236px}
+      .flip-prompt{font-size:9px}
       .carousel-controls{position:sticky;left:0}
       .coupon{min-height:250px}
       .coupon h3{font-size:21px}
@@ -289,6 +296,7 @@
     </section>
     <div class="footer">MOLLY TEA · A LITTLE FLORAL HAPPINESS</div>
   </main>
+  <button id="journeyCue" class="journey-cue hidden" type="button"><span class="journey-arrows">︾</span><span id="journeyCueText">下滑解锁今日推荐</span></button>
 
 <script>
 /* ==================== 可编辑：福利领取链接 ====================
@@ -300,8 +308,16 @@ const questionScores = [
   [{C:2,F:1},{D:2,S:1},{S:2,F:1},{C:2,D:1}],
   [{F:2,C:1},{S:2,D:1},{C:2,F:1},{D:2,S:1}],
   [{F:2,C:1},{C:2,D:1},{S:2,F:1},{D:2,S:1}],
-  [{F:2,C:1},{C:2,S:1},{S:2,D:1},{D:2,S:1}]
+  [{F:2,C:1},{C:2,F:1},{S:2,D:1},{D:2,S:1}]
 ];
+
+/* 每款饮品对四道题的偏好答案索引。先按匹配数量排序，同分时随机。 */
+const productAnswerAffinity={
+  F:[[0,0,0,0],[2,0,2,2],[0,2,0,0],[0,2,0,1],[3,0,1,1]],
+  C:[[3,2,1,1],[0,0,1,1],[3,0,1,2],[0,2,1,1],[3,3,1,3]],
+  S:[[2,1,2,2],[2,1,2,0],[2,0,2,0],[1,0,3,2],[0,1,0,2]],
+  D:[[1,3,3,3],[2,1,3,2],[3,2,0,3],[1,3,1,3],[1,0,1,3]]
+};
 
 const drinkSvgs = {
 F:`<svg viewBox="0 0 260 300" xmlns="http://www.w3.org/2000/svg">
@@ -426,10 +442,10 @@ Object.assign(i18n.zh,{
   resultLabel:"Today's Tea Mood",diagnosisTitle:"今日心情",recommendTitle:"今天推荐你喝",benefitTitle:"会员专属福利",
   benefitLink:"登录 Molly Tea 会员 · 领取 15% OFF 券",benefitPending:"登录 Molly Tea 会员 · 领取 15% OFF 券",restart:"换个心情，再测一次",
   questions:[
-    {title:"如果今天能收到一份礼物，你想要？",options:["😴 睡到自然醒","🍀 好运一整天","🏖️ 立刻去度假","💸 多一笔零花钱"]},
-    {title:"今天只能留下一个，你会选？",options:["🌸 花香","🌊 海浪","🌧️ 雨声","🎁 一个惊喜"]},
-    {title:"休息时间，哪一种最舒服？",options:["📖 安静读一会儿","🍰 吃一份甜点","🏖️ 去海边吹风","🛍️ 探索没去过的地方"]},
-    {title:"不用想太久，选一个今天的 Emoji。",options:["😌","🤍","🌞","✨"]}
+    {title:"如果今天能给自己一份奖励，你会选择……",options:["😴 睡到自然醒","🍀 好运一整天","🎫 一张立即出发的机票","💸 实现奶茶自由！"]},
+    {title:"在今天，你更愿意去感受到哪个瞬间？",options:["🌼 茉莉花环的阵阵清香","🎈 临时收到朋友的出门邀请","🌧 窗边聆听雨声","✨ 在陌生街角偶遇一家宝藏小店"]},
+    {title:"今天是一个完美的下午，因为你……",options:["📖 安静阅读","🧋 给今天加一杯浓郁的快乐","🛵 骑车去海边兜风","🛍 探索没去过的地方"]},
+    {title:"选择一个符合你当下心情的 emoji！",options:["😴 只想休息","🥹 需要安慰","😎 状态在线","🤩 充满期待"]}
   ],
   results:{
     F:{name:"Bloom Mood",cn:"花香治愈",desc:"今天适合慢一点。让轻柔花香和清雅茶韵陪你把节奏放缓，享受片刻自然、舒服的留白。",drinks:[["FLORAL FRESH MILK TEA","花香鲜奶茶系列"],["Jasmine Milk Tea","茉莉奶白"],["Gardenia Milk Tea","栀子奶白"]],coupon:"会员可领取<br>全饮品 15% OFF 券"},
@@ -444,10 +460,10 @@ Object.assign(i18n.en,{
   introNote:"About 20 seconds · 4 moods · Play anytime",resultLabel:"Today's Tea Mood",diagnosisTitle:"Your Mood Today",recommendTitle:"Your Tea Match",benefitTitle:"Member Benefit",
   benefitLink:"Sign in to Molly Tea · Claim 15% OFF",benefitPending:"Sign in to Molly Tea · Claim 15% OFF",restart:"Try Another Mood",
   questions:[
-    {title:"If today could give you one gift, what would it be?",options:["😴 Sleep in","🍀 Good luck all day","🏖️ An instant vacation","💸 Extra spending money"]},
-    {title:"You can keep only one today. Pick one.",options:["🌸 Flowers","🌊 Ocean waves","🌧️ Rain","🎁 A surprise"]},
-    {title:"What feels best on a break?",options:["📖 Read somewhere quiet","🍰 Have dessert","🏖️ Catch a sea breeze","🛍️ Explore somewhere new"]},
-    {title:"Don't overthink it. Pick today's emoji.",options:["😌","🤍","🌞","✨"]}
+    {title:"If you could give yourself one reward today, what would you choose?",options:["😴 Wake up naturally","🍀 Good luck all day","🎫 A ticket to leave right away","💸 Unlimited milk tea!"]},
+    {title:"Which moment would you most like to experience today?",options:["🌼 The soft scent of a jasmine garland","🎈 A spontaneous invitation from a friend","🌧 Listening to the rain by the window","✨ Finding a hidden gem on an unfamiliar street"]},
+    {title:"It's a perfect afternoon because you…",options:["📖 Read in peace","🧋 Add a rich little treat to your day","🛵 Ride to the seaside and feel the breeze","🛍 Explore somewhere you've never been"]},
+    {title:"Pick the emoji that matches your mood right now!",options:["😴 I just want to rest","🥹 I need a little comfort","😎 Feeling on form","🤩 Full of anticipation"]}
   ],
   results:{
     F:{name:"Bloom Mood",cn:"Slow & Floral",desc:"Today is for slowing down. Let delicate florals and graceful tea notes create a calm little pause in your day.",drinks:[["FLORAL FRESH MILK TEA","Floral Fresh Milk Tea Series"],["Jasmine Milk Tea","Jasmine Milk Tea"],["Gardenia Milk Tea","Gardenia Milk Tea"]],coupon:"First completion gift:<br>15% off any drink"},
@@ -462,10 +478,10 @@ Object.assign(i18n.th,{
   introNote:"ประมาณ 20 วินาที · 4 มู้ด · เล่นซ้ำได้ทุกวัน",resultLabel:"Today's Tea Mood",diagnosisTitle:"มู้ดของคุณวันนี้",recommendTitle:"เมนูที่เหมาะกับคุณวันนี้",benefitTitle:"สิทธิพิเศษสำหรับสมาชิก",
   benefitLink:"เข้าสู่ระบบสมาชิก Molly Tea · รับคูปอง 15% OFF",benefitPending:"เข้าสู่ระบบสมาชิก Molly Tea · รับคูปอง 15% OFF",restart:"ลองมู้ดใหม่อีกครั้ง",
   questions:[
-    {title:"ถ้าวันนี้ได้รับของขวัญ 1 อย่าง คุณอยากได้อะไร?",options:["😴 ตื่นสายแบบไม่ต้องรีบ","🍀 โชคดีตลอดวัน","🏖️ ได้ไปเที่ยวทันที","💸 เงินใช้เพิ่ม"]},
-    {title:"วันนี้เลือกเก็บไว้ได้แค่อย่างเดียว จะเลือกอะไร?",options:["🌸 กลิ่นดอกไม้","🌊 เสียงคลื่น","🌧️ เสียงฝน","🎁 เซอร์ไพรส์"]},
-    {title:"เวลาพัก แบบไหนสบายใจที่สุด?",options:["📖 อ่านหนังสือเงียบ ๆ","🍰 กินของหวาน","🏖️ รับลมทะเล","🛍️ ไปที่ใหม่ ๆ"]},
-    {title:"ไม่ต้องคิดนาน เลือก Emoji ของวันนี้",options:["😌","🤍","🌞","✨"]}
+    {title:"ถ้าวันนี้ให้รางวัลตัวเองได้หนึ่งอย่าง คุณจะเลือกอะไร…",options:["😴 นอนตื่นเองแบบไม่ต้องตั้งปลุก","🍀 โชคดีตลอดทั้งวัน","🎫 ตั๋วที่พร้อมออกเดินทางได้ทันที","💸 มีงบชานมไม่อั้น!"]},
+    {title:"วันนี้คุณอยากสัมผัสช่วงเวลาไหนมากที่สุด?",options:["🌼 กลิ่นหอมละมุนจากพวงมาลัยมะลิ","🎈 จู่ ๆ เพื่อนก็ชวนออกไปเที่ยว","🌧 นั่งริมหน้าต่างฟังเสียงฝน","✨ บังเอิญเจอร้านลับดี ๆ ที่มุมถนนแปลกตา"]},
+    {title:"วันนี้เป็นบ่ายที่สมบูรณ์แบบ เพราะคุณ…",options:["📖 อ่านหนังสืออย่างสงบ","🧋 เติมความสุขเข้มข้นให้วันนี้ด้วยเครื่องดื่มสักแก้ว","🛵 ขี่รถไปรับลมริมทะเล","🛍 ออกไปสำรวจที่ที่ยังไม่เคยไป"]},
+    {title:"เลือกอีโมจิที่ตรงกับความรู้สึกตอนนี้!",options:["😴 อยากพักผ่อนอย่างเดียว","🥹 อยากได้กำลังใจ","😎 วันนี้ฟอร์มดี","🤩 เต็มไปด้วยความคาดหวัง"]}
   ],
   results:{
     F:{name:"Bloom Mood",cn:"มู้ดดอกไม้แสนละมุน",desc:"วันนี้เหมาะกับการค่อย ๆ ผ่อนจังหวะ ให้กลิ่นดอกไม้และรสชาที่นุ่มนวลเติมช่วงเวลาสงบเล็ก ๆ ให้คุณ",drinks:[["FLORAL FRESH MILK TEA","ซีรีส์ชานมสดกลิ่นดอกไม้"],["Jasmine Milk Tea","ชานมมะลิ"],["Gardenia Milk Tea","ชานมการ์ดีเนีย"]],coupon:"ของขวัญสำหรับการเล่นครั้งแรก:<br>ส่วนลด 15% ทุกเมนู"},
@@ -523,9 +539,21 @@ const couponCopy={
   en:"Sign in to your Molly Tea membership and claim<span class=\"coupon-off\">15% OFF</span><span class=\"coupon-label\">ANY DRINK COUPON</span><small>One coupon per member · Return here anytime if you have not claimed it</small>",
   th:"เข้าสู่ระบบสมาชิก Molly Tea เพื่อรับ<span class=\"coupon-off\">15% OFF</span><span class=\"coupon-label\">คูปองส่วนลดทุกเมนู</span><small>สมาชิก 1 คนรับได้ 1 ใบ · หากยังไม่ได้รับ สามารถกลับมาที่หน้าผลลัพธ์ได้เสมอ</small>"
 };
+const flipCopy={
+  zh:{front:"点击翻面 · 查看风味介绍",back:"返回正面"},
+  en:{front:"Tap to discover the flavor",back:"Back to front"},
+  th:{front:"แตะเพื่อดูรายละเอียดรสชาติ",back:"กลับด้านหน้า"}
+};
+const journeyCopy={
+  zh:{recommend:"下滑解锁今日推荐",benefit:"下滑解锁会员福利"},
+  en:{recommend:"Scroll for today's picks",benefit:"Scroll for member benefits"},
+  th:{recommend:"เลื่อนดูเมนูแนะนำวันนี้",benefit:"เลื่อนดูสิทธิพิเศษสมาชิก"}
+};
 
 let currentLang=localStorage.getItem("mollyTeaLang")||"zh";
-let current=0, answers=Array(4).fill(null), lastWinner=null;
+let current=0, answers=Array(4).fill(null), lastWinner=null, cardOrder=null, journeyTarget=null;
+const analyticsEndpoint="https://script.google.com/macros/s/AKfycbxGvDmMCAVIF2RkkL4qlrG_s-ofrTMiFnY4EOziYXvMwysS80HjQxLjcISpYrkJ_TJFhQ/exec";
+const quizVersion="2026-07-v2";
 
 const intro=document.getElementById("intro"),quiz=document.getElementById("quiz"),result=document.getElementById("result");
 const questionArea=document.getElementById("questionArea"),stepText=document.getElementById("stepText"),progressBar=document.getElementById("progressBar");
@@ -572,10 +600,48 @@ nextBtn.addEventListener("click",()=>{if(answers[current]===null)return;if(curre
 function calculateResult(){
   const scores={F:0,C:0,S:0,D:0},major={F:0,C:0,S:0,D:0},order=["F","C","S","D"];
   answers.forEach((a,q)=>Object.entries(questionScores[q][a]).forEach(([k,v])=>{scores[k]+=v;if(v===2)major[k]++;}));
-  return [...order].sort((a,b)=>scores[b]-scores[a]||major[b]-major[a]||order.indexOf(a)-order.indexOf(b))[0];
+  const winner=[...order].sort((a,b)=>scores[b]-scores[a]||major[b]-major[a]||order.indexOf(a)-order.indexOf(b))[0];
+  return {winner,scores};
+}
+function rankProductCards(mood){
+  const profiles=productAnswerAffinity[mood]||[];
+  return profiles.map((profile,index)=>({
+    index,
+    score:profile.reduce((total,preferred,q)=>total+(answers[q]===preferred?1:0),0),
+    tie:Math.random()
+  })).sort((a,b)=>b.score-a.score||a.tie-b.tie).map(item=>item.index);
+}
+function createAttemptId(){
+  if(window.crypto&&typeof window.crypto.randomUUID==="function")return window.crypto.randomUUID();
+  return `${Date.now()}-${Math.random().toString(36).slice(2,10)}`;
+}
+function submitQuizResult(outcome){
+  const params=new URLSearchParams(window.location.search);
+  const source=params.get("utm_source")||params.get("source")||(location.protocol==="file:"?"local-preview":location.hostname);
+  const payload={
+    attempt_id:createAttemptId(),
+    language:currentLang,
+    answers:[...answers],
+    scores:outcome.scores,
+    result_mood:outcome.winner,
+    source,
+    quiz_version:quizVersion
+  };
+  fetch(analyticsEndpoint,{
+    method:"POST",
+    mode:"no-cors",
+    headers:{"Content-Type":"text/plain;charset=utf-8"},
+    body:JSON.stringify(payload),
+    keepalive:true
+  }).catch(error=>console.warn("Tea Mood analytics submission failed",error));
 }
 function showResult(){
-  lastWinner=calculateResult();quiz.classList.add("hidden");result.classList.remove("hidden");renderResult(lastWinner);window.scrollTo({top:0,behavior:"smooth"});
+  const outcome=calculateResult();
+  lastWinner=outcome.winner;
+  cardOrder={mood:lastWinner,indices:rankProductCards(lastWinner)};
+  submitQuizResult(outcome);
+  quiz.classList.add("hidden");result.classList.remove("hidden");renderResult(lastWinner);window.scrollTo({top:0,behavior:"smooth"});
+  requestAnimationFrame(updateJourneyCue);
 }
 function renderResult(w){
   const t=i18n[currentLang],d=t.results[w];
@@ -586,8 +652,11 @@ function renderResult(w){
   document.getElementById("resultDesc").textContent=d.desc;
   document.getElementById("drinkArt").innerHTML=drinkSvgs[w];
   document.getElementById("couponText").innerHTML=couponCopy[currentLang]||couponCopy.zh;
-  const cards=(productCards[currentLang]||productCards.zh)[w];
-  document.getElementById("drinkList").innerHTML=`<div class="carousel-wrap"><div class="carousel-controls"><span class="swipe-hint">${currentLang==="th"?"เลื่อนไปทางขวา · พบตัวเลือกเพิ่ม":currentLang==="en"?"SWIPE RIGHT · DISCOVER MORE":"向右滑 · 解锁更多"}</span><button class="carousel-btn carousel-prev" type="button" aria-label="Previous">‹</button><button class="carousel-btn carousel-next" type="button" aria-label="Next">›</button></div><div class="drink-carousel" tabindex="0">${cards.map((x,i)=>{const imageSrc=`assets/card-images/${x[4].replace(".webp",".jpg")}`;return `<button class="drink-card" type="button" aria-label="${x[0]}"><span class="drink-card-inner"><span class="drink-face drink-front"><span class="card-index">MATCH ${String(i+1).padStart(2,"0")}</span><span class="product-image-wrap"><img class="product-image" src="${imageSrc}" alt="${x[0]}" loading="lazy" decoding="async" onerror="this.parentElement.classList.add('missing');this.remove()"></span><strong>${x[0]}</strong><small>${x[1]}</small><span class="tags">${x[2].map(t=>`<span class="tag">${t}</span>`).join("")}</span></span><span class="drink-face drink-back"><strong class="drink-back-title">${x[0]}</strong><p class="drink-back-copy">${x[3]}</p><span class="flip-back" aria-hidden="true">↶</span></span></span></button>`;}).join("")}</div></div>`;
+  const baseCards=(productCards[currentLang]||productCards.zh)[w];
+  const indices=cardOrder&&cardOrder.mood===w?cardOrder.indices:baseCards.map((_,i)=>i);
+  const cards=indices.map(i=>baseCards[i]);
+  const flip=flipCopy[currentLang]||flipCopy.zh;
+  document.getElementById("drinkList").innerHTML=`<div class="carousel-wrap"><div class="carousel-controls"><span class="swipe-hint">${currentLang==="th"?"เลื่อนไปทางขวา · พบตัวเลือกเพิ่ม":currentLang==="en"?"SWIPE RIGHT · DISCOVER MORE":"向右滑 · 解锁更多"}</span><button class="carousel-btn carousel-prev" type="button" aria-label="Previous">‹</button><button class="carousel-btn carousel-next" type="button" aria-label="Next">›</button></div><div class="drink-carousel" tabindex="0">${cards.map((x,i)=>{const imageSrc=`assets/card-images/${x[4].replace(".webp",".jpg")}`;return `<button class="drink-card" type="button" aria-label="${x[0]}"><span class="drink-card-inner"><span class="drink-face drink-front"><span class="card-index">MATCH ${String(i+1).padStart(2,"0")}</span><span class="product-image-wrap"><img class="product-image" src="${imageSrc}" alt="${x[0]}" loading="lazy" decoding="async" onerror="this.parentElement.classList.add('missing');this.remove()"></span><strong>${x[0]}</strong><small>${x[1]}</small><span class="tags">${x[2].map(t=>`<span class="tag">${t}</span>`).join("")}</span><span class="flip-prompt">${flip.front}<span class="flip-icon" aria-hidden="true">↻</span></span></span><span class="drink-face drink-back"><strong class="drink-back-title">${x[0]}</strong><p class="drink-back-copy">${x[3]}</p><span class="flip-back"><span aria-hidden="true">↶</span>${flip.back}</span></span></span></button>`;}).join("")}</div></div>`;
   const carousel=document.querySelector(".drink-carousel");
   const cardStep=()=>Math.min(272,carousel.clientWidth*.86);
   document.querySelector(".carousel-prev").addEventListener("click",()=>carousel.scrollBy({left:-cardStep(),behavior:"smooth"}));
@@ -602,8 +671,24 @@ function renderResult(w){
   const link=document.getElementById("benefitLink"),href=benefitLinks[w];
   if(href&&href!=="#"){link.href=href;link.textContent=t.benefitLink;link.classList.remove("disabled");}
   else{link.href="#";link.textContent=t.benefitPending;link.classList.add("disabled");link.onclick=e=>{e.preventDefault();alert(currentLang==="th"?"กรุณาใส่ลิงก์คูปองสมาชิก":currentLang==="en"?"Please connect the member coupon URL":"请接入会员优惠券链接");};}
+  requestAnimationFrame(updateJourneyCue);
 }
-document.getElementById("restartBtn").addEventListener("click",()=>{answers=Array(4).fill(null);current=0;lastWinner=null;delete document.body.dataset.mood;delete result.dataset.mood;result.classList.add("hidden");intro.classList.remove("hidden");window.scrollTo({top:0,behavior:"smooth"});});
+const journeyCue=document.getElementById("journeyCue"),journeyCueText=document.getElementById("journeyCueText");
+function updateJourneyCue(){
+  if(result.classList.contains("hidden")){journeyCue.classList.add("hidden");return;}
+  const recommend=document.querySelector(".recommend-panel"),benefit=document.querySelector(".coupon");
+  if(!recommend||!benefit)return;
+  const benefitTop=benefit.getBoundingClientRect().top,recommendTop=recommend.getBoundingClientRect().top;
+  if(benefitTop<=window.innerHeight*.82){journeyCue.classList.add("hidden");journeyTarget=null;return;}
+  const copy=journeyCopy[currentLang]||journeyCopy.zh;
+  journeyCue.classList.remove("hidden");
+  if(recommendTop<=window.innerHeight*.58){journeyCueText.textContent=copy.benefit;journeyTarget=benefit;}
+  else{journeyCueText.textContent=copy.recommend;journeyTarget=recommend;}
+}
+journeyCue.addEventListener("click",()=>journeyTarget&&journeyTarget.scrollIntoView({behavior:"smooth",block:"start"}));
+window.addEventListener("scroll",updateJourneyCue,{passive:true});
+window.addEventListener("resize",updateJourneyCue,{passive:true});
+document.getElementById("restartBtn").addEventListener("click",()=>{answers=Array(4).fill(null);current=0;lastWinner=null;cardOrder=null;journeyTarget=null;journeyCue.classList.add("hidden");delete document.body.dataset.mood;delete result.dataset.mood;result.classList.add("hidden");intro.classList.remove("hidden");window.scrollTo({top:0,behavior:"smooth"});});
 applyLanguage(currentLang);
 </script>
 </body>
