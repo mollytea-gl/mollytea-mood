@@ -91,7 +91,7 @@
     .intro h1{font-size:clamp(30px,4.5vw,52px);line-height:1.12;font-weight:500;margin:25px 0 16px;letter-spacing:.015em;white-space:nowrap}
     .subtitle{max-width:none;margin:0 auto 32px;color:var(--muted);line-height:1.7;font-size:15px;white-space:nowrap}
     html[lang="en"] .intro h1,html[lang="th"] .intro h1{font-family:Georgia,"Times New Roman",serif;font-size:clamp(25px,4vw,44px);letter-spacing:.01em}
-    .intro-visual{width:190px;aspect-ratio:1;margin:-4px auto 24px;border-radius:26px;overflow:hidden;background:#f3f0e8;box-shadow:0 18px 36px rgba(48,43,39,.13);border:1px solid rgba(255,255,255,.75)}
+    .intro-visual{width:285px;max-width:82vw;aspect-ratio:1;margin:-4px auto 24px;border-radius:0;overflow:hidden;background:transparent;box-shadow:none;border:0}
     .intro-visual img{display:block;width:100%;height:100%;object-fit:cover;object-position:center}
     .primary{
       border:0;border-radius:999px;padding:14px 30px;cursor:pointer;
@@ -221,7 +221,7 @@
       html[lang="en"] .intro h1,html[lang="th"] .intro h1{font-size:clamp(14px,4.2vw,23px);letter-spacing:0}
       html[lang="en"] .subtitle{font-size:clamp(11px,3.25vw,14px)}
       html[lang="th"] .subtitle{font-size:clamp(10px,3.05vw,13px)}
-      .intro-visual{width:150px;margin:-8px auto 20px;border-radius:22px}
+      .intro-visual{width:225px;margin:-8px auto 20px;border-radius:0}
       .eyebrow{font-size:10px;letter-spacing:.17em}
       .eyebrow::before,.eyebrow::after{width:15px}
       .question-title{font-size:clamp(24px,7vw,32px);margin-bottom:20px}
@@ -263,7 +263,7 @@
           <div id="introEyebrow" class="eyebrow">What's Your Tea Mood Today?</div>
           <h1 id="introTitle">今天你的心情，适合哪一杯？</h1>
           <p id="introSubtitle" class="subtitle">解锁你今天的 Molly Tea 风格</p>
-          <div class="intro-visual"><img src="assets/intro/tea-mood-hero.webp" alt="Molly Tea Mood" width="720" height="720" loading="eager" decoding="async"></div>
+          <div class="intro-visual"><img src="assets/intro/tea-mood-hero-no-border.jpg" alt="Molly Tea Mood" width="1600" height="1600" loading="eager" decoding="async"></div>
           <button id="startBtn" class="primary">开始测试</button>
           <div id="introNote" class="small-note">约 30 秒完成 · 共 5 种人格</div>
         </section>
