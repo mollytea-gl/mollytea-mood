@@ -331,7 +331,7 @@ const MEMBER_COUPON_URL="https://vip.centrdx.com/?branch=1044&coupon_id=06e7307a
 const benefitLinks={F:MEMBER_COUPON_URL,C:MEMBER_COUPON_URL,S:MEMBER_COUPON_URL,D:MEMBER_COUPON_URL};
 
 const questionScores = [
-  [{C:2,F:1},{D:2,S:1},{S:2,F:1},{C:2,D:1}],
+  [{F:2,C:1},{D:2,S:1},{S:2,F:1},{C:2,D:1}],
   [{F:2,C:1},{S:2,D:1},{C:2,F:1},{D:2,S:1}],
   [{F:2,C:1},{C:2,D:1},{S:2,F:1},{D:2,S:1}],
   [{F:2,C:1},{C:2,F:1},{S:2,D:1},{D:2,S:1}]
@@ -639,7 +639,7 @@ else if(browserLang.startsWith("th")) detectedLang="th";
 let currentLang=supportedLangs.includes(savedLang)?savedLang:detectedLang;
 let current=0, answers=Array(4).fill(null), lastWinner=null, cardOrder=null, journeyTarget=null;
 const analyticsEndpoint="https://script.google.com/macros/s/AKfycbxGvDmMCAVIF2RkkL4qlrG_s-ofrTMiFnY4EOziYXvMwysS80HjQxLjcISpYrkJ_TJFhQ/exec";
-const quizVersion="2026-07-v2";
+const quizVersion="2026-07-v3";
 
 const intro=document.getElementById("intro"),quiz=document.getElementById("quiz"),result=document.getElementById("result");
 const questionArea=document.getElementById("questionArea"),stepText=document.getElementById("stepText"),progressBar=document.getElementById("progressBar");
