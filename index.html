@@ -605,7 +605,7 @@ const productDescriptions={
   }
 };
 // 暂不上架：保留完整产品资料与图片，研发确认文案后从此名单移除即可恢复展示。
-const unpublishedProducts=new Set(["一朵栀子花","栀子金萱"]);
+const unpublishedProducts=new Set();
 const sourceProductCards=Object.fromEntries(
   Object.entries(productCards.zh).map(([m,items])=>[m,items.filter(x=>!unpublishedProducts.has(x[0]))])
 );
