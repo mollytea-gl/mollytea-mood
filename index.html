@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#ede4d2" />
-  <title>Molly Tea｜Today's Tea Mood</title>
+  <title>Molly Tea｜Tea Mood · September Edition</title>
   <style>
     @font-face{font-family:"MiSans";src:url("assets/fonts/web/MiSans-Regular.woff2") format("woff2");font-weight:400;font-style:normal;font-display:swap}
     @font-face{font-family:"MiSans";src:url("assets/fonts/web/MiSans-Semibold.woff2") format("woff2");font-weight:600 900;font-style:normal;font-display:swap}
@@ -265,7 +265,7 @@
     <section class="shell">
       <div class="content">
         <section id="intro" class="intro">
-          <div id="introEyebrow" class="eyebrow">What's Your Tea Mood Today?</div>
+          <div id="introEyebrow" class="eyebrow">Tea Mood「9月限定更新」</div>
           <h1 id="introTitle">今天你的心情，适合哪一杯？</h1>
           <p id="introSubtitle" class="subtitle">解锁你今天的 Molly Tea 风格</p>
           <div class="intro-visual"><img src="assets/intro/tea-mood-hero-no-border.jpg" alt="Molly Tea Mood" width="1600" height="1600" loading="eager" decoding="async"></div>
@@ -288,7 +288,7 @@
         <section id="result" class="result-page hidden">
           <div class="result-card">
             <div class="result-top">
-              <div id="resultLabel" class="result-kicker">Your Tea Personality</div>
+              <div id="resultLabel" class="result-kicker">September Tea Match</div>
               <div id="resultName" class="result-title">Floral Lover</div>
               <div id="resultCn" class="result-cn">花香治愈派</div>
             </div>
@@ -327,7 +327,7 @@
 /* ==================== 会员福利领取链接 ====================
    四种 Tea Mood 统一领取同一张会员优惠券。
 =========================================================== */
-const MEMBER_COUPON_URL="https://vip.centrdx.com/?branch=1044&coupon_id=06e7307a-0f93-497a-8b7e-3e8063699016&channel=link#/pages/system/get-coupon";
+const MEMBER_COUPON_URL="https://vip.centrdx.com/?branch=1044&coupon_id=426d4a10-42ec-4870-b55e-b926d608dadf&channel=link#/pages/system/get-coupon";
 const benefitLinks={F:MEMBER_COUPON_URL,C:MEMBER_COUPON_URL,S:MEMBER_COUPON_URL,D:MEMBER_COUPON_URL};
 
 const questionScores = [
@@ -341,9 +341,12 @@ const questionScores = [
 const productAnswerAffinity={
   F:[[0,0,0,0],[2,0,2,2],[0,2,0,0],[0,2,0,1],[3,0,1,1]],
   C:[[3,2,1,1],[0,0,1,1],[3,0,1,2],[0,2,1,1],[3,3,1,3]],
-  S:[[2,1,2,2],[2,1,2,0],[2,0,2,0],[1,0,3,2],[0,1,0,2]],
+  S:[[2,1,2,2],[2,1,2,0],[2,0,2,0],[1,0,3,2],[0,1,0,2],[2,3,2,3]],
   D:[[1,3,3,3],[2,1,3,2],[3,2,0,3],[1,3,1,3],[1,0,1,3]]
 };
+
+/* 9月新品获得轻微上线优先权；答案相关性仍是主要排序依据。 */
+const productLaunchBoost={S:{5:.25}};
 
 const moodIllustrations={
   F:"assets/mood-illustrations/bloom-mood.webp",
@@ -468,11 +471,12 @@ th:{
 
 /* Today's Mood Ver.2 — confirmed direction from the project discussion. */
 Object.assign(i18n.zh,{
-  introEyebrow:"What's Your Tea Mood Today?",
+  pageTitle:"Molly Tea｜Tea Mood「9月限定更新」",
+  introEyebrow:"Tea Mood「9月限定更新」",
   introTitle:"今天你的心情，适合哪一杯？",
   introSubtitle:"解锁你今天的 Molly Tea 风格",
   introNote:"约 20 秒完成 · 4 种今日心情 · 可重复测试",
-  resultLabel:"Today's Tea Mood",diagnosisTitle:"今日心情",recommendTitle:"今天推荐你喝",benefitTitle:"会员专属福利",
+  resultLabel:"September Tea Match",diagnosisTitle:"今日心情",recommendTitle:"今天推荐你喝",benefitTitle:"会员专属福利",
   benefitLink:"登录 Molly Tea 会员 · 领取 12% OFF 券",benefitPending:"登录 Molly Tea 会员 · 领取 12% OFF 券",restart:"换个心情，再测一次",
   questions:[
     {title:"如果今天能给自己一份奖励，你会选择……",options:["😴 睡到自然醒","🍀 好运一整天","🎫 一张立即出发的机票","💸 实现奶茶自由！"]},
@@ -488,9 +492,10 @@ Object.assign(i18n.zh,{
   }
 });
 Object.assign(i18n.en,{
-  introEyebrow:"What's Your Tea Mood Today?",introTitle:"WHAT’S YOUR MOLLY TEA MOOD TODAY?",
+  pageTitle:"Molly Tea｜Tea Mood · September Edition",
+  introEyebrow:"Tea Mood · September Edition",introTitle:"WHAT’S YOUR MOLLY TEA MOOD TODAY?",
   introSubtitle:"Discover Your Molly Tea Mood for Today.",
-  introNote:"About 20 seconds · 4 moods · Play anytime",resultLabel:"Today's Tea Mood",diagnosisTitle:"Your Mood Today",recommendTitle:"Your Tea Match",benefitTitle:"Member Benefit",
+  introNote:"About 20 seconds · 4 moods · Play anytime",resultLabel:"September Tea Match",diagnosisTitle:"Your Mood Today",recommendTitle:"Your Tea Match",benefitTitle:"Member Benefit",
   benefitLink:"Sign in to Molly Tea · Claim 12% OFF",benefitPending:"Sign in to Molly Tea · Claim 12% OFF",restart:"Try Another Mood",
   questions:[
     {title:"If you could give yourself one reward today, what would you choose?",options:["😴 Wake up naturally","🍀 Good luck all day","🎫 A ticket to leave right away","💸 Unlimited milk tea!"]},
@@ -506,9 +511,10 @@ Object.assign(i18n.en,{
   }
 });
 Object.assign(i18n.th,{
-  introEyebrow:"What's Your Tea Mood Today?",introTitle:"WHAT’S YOUR MOLLY TEA MOOD TODAY?",
+  pageTitle:"Molly Tea｜Tea Mood · ฉบับเดือนกันยายน",
+  introEyebrow:"Tea Mood · ฉบับเดือนกันยายน",introTitle:"WHAT’S YOUR MOLLY TEA MOOD TODAY?",
   introSubtitle:"ค้นพบเมนู Molly Tea ที่ตรง Mood สำหรับคุณในวันนี้",
-  introNote:"ประมาณ 20 วินาที · 4 มู้ด · เล่นซ้ำได้ทุกวัน",resultLabel:"Today's Tea Mood",diagnosisTitle:"มู้ดของคุณวันนี้",recommendTitle:"เมนูที่เหมาะกับคุณวันนี้",benefitTitle:"สิทธิพิเศษสำหรับสมาชิก",
+  introNote:"ประมาณ 20 วินาที · 4 มู้ด · เล่นซ้ำได้ทุกวัน",resultLabel:"Tea Match ประจำเดือนกันยายน",diagnosisTitle:"มู้ดของคุณวันนี้",recommendTitle:"เมนูที่เหมาะกับคุณวันนี้",benefitTitle:"สิทธิพิเศษสำหรับสมาชิก",
   benefitLink:"เข้าสู่ระบบสมาชิก Molly Tea · รับคูปอง 12% OFF",benefitPending:"เข้าสู่ระบบสมาชิก Molly Tea · รับคูปอง 12% OFF",restart:"ลองเล่นใหม่อีกครั้ง",
   questions:[
     {title:"ถ้าวันนี้ให้รางวัลตัวเองได้หนึ่งอย่าง คุณจะเลือกอะไร…",options:["😴 นอนตื่นเองแบบไม่ต้องตั้งปลุก","🍀 โชคดีตลอดทั้งวัน","🎫 ตั๋วที่พร้อมออกเดินทางได้ทันที","💸 มีงบชานมไม่อั้น!"]},
@@ -545,7 +551,8 @@ const productCards={
       ["茉莉椰","Jasmine Coconut","ชามะลิมะพร้าว",["茉莉","椰香","鲜爽"],"茉莉针王搭配泰国香椰水，芳香裹椰甜，鲜爽沁心。","jasmine-coconut.webp"],
       ["小兰花","White Champaca Coconut","ชาแมกโนเลียขาวมะพร้าว",["兰香","竹叶","椰香"],"兰香甘露融合泰国香椰水，竹叶香、幽兰茶香与椰香依次展开。","white-champaca-coconut.webp"],
       ["栀子冰茶","Gardenia Iced Tea","ชาการ์ดีเนีย",["栀子","嫩香","鲜灵"],"栀子经由六窨一提工艺，茶底凝调栀子花香与嫩香，尾调干净鲜灵","gardenia-iced-tea.webp"],
-      ["针王冰茶","Premium Jasmine Iced Tea","ชามะลิพรีเมียม",["茉莉","毫香","鲜甜"],"高等级茉莉针王鲜灵甘爽，尾调带冰糖感微甜。","premium-jasmine-iced-tea.webp"]
+      ["针王冰茶","Premium Jasmine Iced Tea","ชามะลิพรีเมียม",["茉莉","毫香","鲜甜"],"高等级茉莉针王鲜灵甘爽，尾调带冰糖感微甜。","premium-jasmine-iced-tea.webp"],
+      ["针王芒芒椰","Premium Jasmine Mango Coconut Tea","ชาทรอปิคอลมะม่วงครีมโฟม",["芒果","椰香","凤梨青柠"],"茉莉针王融合芒果汁与椰皇水，加入凤梨青柠果肉浆，顶部覆盖轻盈奶霜，清甜果香、椰香与花香层层展开。","premium-jasmine-mango-coconut-tea.webp"]
     ],
     D:[
       ["针王苹果","Premium Jasmine Apple Milk Tea","ชานมมะลิแอปเปิล",["苹果","茉莉","馥郁"],"鲜榨苹果果香融入茉莉针王与牛乳，果香、花香和茶香层层展开。","premium-jasmine-apple-milk-tea.webp"],
@@ -556,8 +563,11 @@ const productCards={
     ]
   }
 };
-const enTag={"茉莉":"Jasmine","甘醇":"Mellow","鲜醇":"Fresh & mellow","鲜爽":"Fresh","清爽":"Refreshing","鲜甜":"Bright sweet","栀子":"Gardenia","桂香":"Osmanthus","豆香":"Roasted bean","悠长":"Lingering","兰香":"Floral","甘滑":"Silky","浓郁":"Rich","奶香":"Milky","抹茶":"Matcha","咸芝士":"Salted cheese","绵密":"Creamy","浓郁清新":"Rich & fresh","栀香":"Gardenia","茉莉云顶":"Jasmine cream","栀子云顶":"Gardenia cream","碧根果":"Pecan","奶醇":"Creamy milk","金萱乌龙":"Jin Xuan oolong","小种红茶":"Lapsang black tea","咸酪乳":"Salted cheese","醇厚":"Full-bodied","芒果":"Mango","西柚":"Pomelo","冰爽":"Icy","椰香":"Coconut","竹叶":"Bamboo leaf","嫩香":"Tender aroma","鲜灵":"Lively","毫香":"Tea bud aroma","苹果":"Apple","馥郁":"Aromatic","蜜桃":"Peach","陈年铁观音":"Aged Tieguanyin","话梅香":"Plum","花蜜香":"Floral honey","桂圆香":"Longan","茶韵":"Tea finish","开心果":"Pistachio","芝士":"Cheese"};
-const thTag={"茉莉":"มะลิ","甘醇":"กลมกล่อม","鲜醇":"สดกลมกล่อม","鲜爽":"สดชื่น","清爽":"เบาสดชื่น","鲜甜":"หวานสดใส","栀子":"การ์ดีเนีย","桂香":"หอมกุ้ยฮวา","豆香":"หอมถั่วคั่ว","悠长":"หอมยาวนาน","兰香":"หอมดอกไม้","甘滑":"นุ่มลื่น","浓郁":"เข้มข้น","奶香":"หอมนม","抹茶":"มัทฉะ","咸芝士":"ครีมชีสเค็ม","绵密":"เนียนนุ่ม","浓郁清新":"เข้มข้นสดชื่น","栀香":"หอมการ์ดีเนีย","茉莉云顶":"ครีมมะลิ","栀子云顶":"ครีมการ์ดีเนีย","碧根果":"พีแคน","奶醇":"นมหอมละมุน","金萱乌龙":"อู่หลงจินเซวียน","小种红茶":"ชาดำแลปซาง","咸酪乳":"ครีมชีสเค็ม","醇厚":"เต็มรส","芒果":"มะม่วง","西柚":"ส้มโอ","冰爽":"เย็นสดชื่น","椰香":"หอมมะพร้าว","竹叶":"ใบไผ่","嫩香":"กลิ่นหอมอ่อนโยน","鲜灵":"หอมมีชีวิตชีวา","毫香":"กลิ่นยอดชา","苹果":"แอปเปิล","馥郁":"หอมเข้ม","蜜桃":"พีช","陈年铁观音":"เถี่ยกวนอิมบ่ม","话梅香":"บ๊วย","花蜜香":"หอมน้ำผึ้งดอกไม้","桂圆香":"หอมลำไย","茶韵":"ปลายรสชา","开心果":"พิสตาชิโอ","芝士":"ชีส"};
+const enTag={"茉莉":"Jasmine","甘醇":"Mellow","鲜醇":"Fresh & mellow","鲜爽":"Fresh","清爽":"Refreshing","鲜甜":"Bright sweet","栀子":"Gardenia","桂香":"Osmanthus","豆香":"Roasted bean","悠长":"Lingering","兰香":"Floral","甘滑":"Silky","浓郁":"Rich","奶香":"Milky","抹茶":"Matcha","咸芝士":"Salted cheese","绵密":"Creamy","浓郁清新":"Rich & fresh","栀香":"Gardenia","茉莉云顶":"Jasmine cream","栀子云顶":"Gardenia cream","碧根果":"Pecan","奶醇":"Creamy milk","金萱乌龙":"Jin Xuan oolong","小种红茶":"Lapsang black tea","咸酪乳":"Salted cheese","醇厚":"Full-bodied","芒果":"Mango","西柚":"Pomelo","冰爽":"Icy","椰香":"Coconut","凤梨青柠":"Pineapple lime","竹叶":"Bamboo leaf","嫩香":"Tender aroma","鲜灵":"Lively","毫香":"Tea bud aroma","苹果":"Apple","馥郁":"Aromatic","蜜桃":"Peach","陈年铁观音":"Aged Tieguanyin","话梅香":"Plum","花蜜香":"Floral honey","桂圆香":"Longan","茶韵":"Tea finish","开心果":"Pistachio","芝士":"Cheese"};
+const thTag={"茉莉":"มะลิ","甘醇":"กลมกล่อม","鲜醇":"สดกลมกล่อม","鲜爽":"สดชื่น","清爽":"เบาสดชื่น","鲜甜":"หวานสดใส","栀子":"การ์ดีเนีย","桂香":"หอมกุ้ยฮวา","豆香":"หอมถั่วคั่ว","悠长":"หอมยาวนาน","兰香":"หอมดอกไม้","甘滑":"นุ่มลื่น","浓郁":"เข้มข้น","奶香":"หอมนม","抹茶":"มัทฉะ","咸芝士":"ครีมชีสเค็ม","绵密":"เนียนนุ่ม","浓郁清新":"เข้มข้นสดชื่น","栀香":"หอมการ์ดีเนีย","茉莉云顶":"ครีมมะลิ","栀子云顶":"ครีมการ์ดีเนีย","碧根果":"พีแคน","奶醇":"นมหอมละมุน","金萱乌龙":"อู่หลงจินเซวียน","小种红茶":"ชาดำแลปซาง","咸酪乳":"ครีมชีสเค็ม","醇厚":"เต็มรส","芒果":"มะม่วง","西柚":"ส้มโอ","冰爽":"เย็นสดชื่น","椰香":"หอมมะพร้าว","凤梨青柠":"สับปะรดไลม์","竹叶":"ใบไผ่","嫩香":"กลิ่นหอมอ่อนโยน","鲜灵":"หอมมีชีวิตชีวา","毫香":"กลิ่นยอดชา","苹果":"แอปเปิล","馥郁":"หอมเข้ม","蜜桃":"พีช","陈年铁观音":"เถี่ยกวนอิมบ่ม","话梅香":"บ๊วย","花蜜香":"หอมน้ำผึ้งดอกไม้","桂圆香":"หอมลำไย","茶韵":"ปลายรสชา","开心果":"พิสตาชิโอ","芝士":"ชีส"};
+const thTagOverrides={
+  "针王芒芒椰":{"椰香":"มะพร้าว","凤梨青柠":"สับปะรดและมะนาว"}
+};
 const productDescriptions={
   en:{
     "茉莉奶白":"High-mountain tea scented with jasmine through seven rounds, paired with premium milk for a mellow, refreshing taste and a lingering floral aroma.",
@@ -575,6 +585,7 @@ const productDescriptions={
     "小兰花":"White champaca tea is blended with fragrant Thai coconut water, unfolding from bamboo leaf to floral tea notes and a soft coconut finish.",
     "栀子冰茶":"Gardenia scented through six rounds and one finishing round gives the tea a delicate floral freshness, ending clean and lively.",
     "针王冰茶":"Premium jasmine tea delivers a lively floral aroma and a refreshing taste, finishing with a delicate rock-sugar sweetness.",
+    "针王芒芒椰":"Premium jasmine tea is blended with mango juice and coconut water, layered with pineapple-lime fruit pulp and topped with light cream foam, revealing bright tropical fruit, coconut and floral notes.",
     "针王苹果":"Fresh-pressed apple juice meets premium jasmine tea and milk, unfolding in layers of fruit, florals and tea.",
     "栀子金萱":"Jin Xuan oolong meets crisp gardenia tea, opening with delicate florals, followed by a refreshing tea body and a soft milky finish.",
     "桐木关小种":"Rare Lapsang tea crafted with an innovative leaf-shaking technique reveals peach and longan aromas, a warm amber liquor and a lingering tea finish.",
@@ -597,6 +608,7 @@ const productDescriptions={
     "小兰花":"ชากลิ่นจำปีขาวผสานน้ำมะพร้าวหอมจากไทย ไล่ชั้นจากกลิ่นใบไผ่ สู่กลิ่นชาดอกไม้ และปิดท้ายด้วยกลิ่นมะพร้าว",
     "栀子冰茶":"ดอกการ์ดีเนียผ่านการอบกลิ่น 6 รอบและเก็บกลิ่นอีก 1 รอบ ทำให้ฐานชามีกลิ่นดอกไม้สดอ่อน ๆ พร้อมปลายรสสะอาดและหอมสดชื่น",
     "针王冰茶":"ชามะลิพรีเมียมเผยกลิ่นหอมดอกไม้ที่สดใส พร้อมรสชาติสดชื่น ปิดท้ายด้วยความหวานละมุนแบบน้ำตาลกรวด",
+    "针王芒芒椰":"ชามะลิพรีเมียมผสานน้ำมะม่วงและน้ำมะพร้าว เติมเนื้อผลไม้สับปะรดผสมมะนาว และท็อปด้วยครีมโฟมเนื้อละมุน ให้กลิ่นผลไม้เมืองร้อน มะพร้าว และปิดท้ายด้วยกลิ่นดอกไม้",
     "针王苹果":"น้ำแอปเปิลคั้นสดผสานชามะลิพรีเมียมและนม เผยกลิ่นผลไม้ ดอกไม้ และชาออกมาเป็นชั้น ๆ",
     "栀子金萱":"ชาอู่หลงจินเซวียนผสานชาการ์ดีเนีย เปิดด้วยกลิ่นดอกไม้อ่อน ๆ ตามด้วยรสชาที่สดชื่น และปิดท้ายด้วยกลิ่นนมหอมละมุนอย่างลงตัว",
     "桐木关小种":"ชาดำแลปซางหายาก รังสรรค์ด้วยเทคนิคเขย่าใบชาอันเป็นเอกลักษณ์ เผยชั้นกลิ่นพีชและลำไย น้ำชาสีอำพันอบอุ่น พร้อมปลายรสชาที่คงอยู่ยาวนาน",
@@ -611,7 +623,10 @@ const sourceProductCards=Object.fromEntries(
 );
 function makeLocalizedCards(lang,tags,detail){
   const localized={};
-  Object.entries(sourceProductCards).forEach(([m,items])=>{localized[m]=items.map(x=>lang==="th"?[x[2],x[1],x[3].map(t=>tags[t]||t),detail(x,tags),x[5]]:[x[1],x[0],x[3].map(t=>tags[t]||t),detail(x,tags),x[5]]);});
+  Object.entries(sourceProductCards).forEach(([m,items])=>{localized[m]=items.map(x=>{
+    const localizedTags=x[3].map(t=>lang==="th"?(thTagOverrides[x[0]]?.[t]||tags[t]||t):(tags[t]||t));
+    return lang==="th"?[x[2],x[1],localizedTags,detail(x,tags),x[5]]:[x[1],x[0],localizedTags,detail(x,tags),x[5]];
+  });});
   return localized;
 }
 productCards.en=makeLocalizedCards("en",enTag,x=>productDescriptions.en[x[0]]||x[4]);
@@ -643,7 +658,7 @@ else if(browserLang.startsWith("th")) detectedLang="th";
 let currentLang=supportedLangs.includes(savedLang)?savedLang:detectedLang;
 let current=0, answers=Array(4).fill(null), lastWinner=null, cardOrder=null, journeyTarget=null;
 const analyticsEndpoint="https://script.google.com/macros/s/AKfycbxGvDmMCAVIF2RkkL4qlrG_s-ofrTMiFnY4EOziYXvMwysS80HjQxLjcISpYrkJ_TJFhQ/exec";
-const quizVersion="2026-07-v3";
+const quizVersion="2026-09-edition";
 
 const intro=document.getElementById("intro"),quiz=document.getElementById("quiz"),result=document.getElementById("result");
 const questionArea=document.getElementById("questionArea"),stepText=document.getElementById("stepText"),progressBar=document.getElementById("progressBar");
@@ -654,6 +669,7 @@ function applyLanguage(lang){
   document.documentElement.lang=lang==="zh"?"zh-CN":lang;
   document.querySelectorAll(".lang-btn").forEach(b=>b.classList.toggle("active",b.dataset.lang===lang));
   const t=i18n[lang];
+  document.title=t.pageTitle||document.title;
   document.getElementById("introEyebrow").innerHTML=t.introEyebrow;
   document.getElementById("introTitle").innerHTML=t.introTitle;
   document.getElementById("introSubtitle").innerHTML=t.introSubtitle;
@@ -697,7 +713,7 @@ function rankProductCards(mood){
   const profiles=productAnswerAffinity[mood]||[];
   return profiles.map((profile,index)=>({
     index,
-    score:profile.reduce((total,preferred,q)=>total+(answers[q]===preferred?1:0),0),
+    score:profile.reduce((total,preferred,q)=>total+(answers[q]===preferred?1:0),0)+(productLaunchBoost[mood]?.[index]||0),
     tie:Math.random()
   })).sort((a,b)=>b.score-a.score||a.tie-b.tie).map(item=>item.index);
 }
@@ -744,7 +760,7 @@ function renderResult(w){
   document.getElementById("couponText").innerHTML=couponCopy[currentLang]||couponCopy.zh;
   const baseCards=(productCards[currentLang]||productCards.zh)[w];
   const indices=cardOrder&&cardOrder.mood===w?cardOrder.indices:baseCards.map((_,i)=>i);
-  const cards=indices.map(i=>baseCards[i]);
+  const cards=indices.map(i=>baseCards[i]).slice(0,5);
   const flip=flipCopy[currentLang]||flipCopy.zh;
   document.getElementById("drinkList").innerHTML=`<div class="carousel-wrap"><div class="carousel-controls"><span class="swipe-hint">${currentLang==="th"?"เลื่อนไปทางขวา · พบตัวเลือกเพิ่ม":currentLang==="en"?"SWIPE RIGHT · DISCOVER MORE":"向右滑 · 解锁更多"}</span><button class="carousel-btn carousel-prev" type="button" aria-label="Previous">‹</button><button class="carousel-btn carousel-next" type="button" aria-label="Next">›</button></div><div class="drink-carousel" tabindex="0">${cards.map((x,i)=>{const imageSrc=`assets/card-images/${x[4]}`;return `<button class="drink-card" type="button" aria-label="${x[0]}"><span class="drink-card-inner"><span class="drink-face drink-front"><span class="card-index">MATCH ${String(i+1).padStart(2,"0")}</span><span class="product-image-wrap"><img class="product-image" src="${imageSrc}" alt="${x[0]}" loading="lazy" decoding="async" onerror="this.parentElement.classList.add('missing');this.remove()"></span><strong>${x[0]}</strong><small>${x[1]}</small><span class="tags">${x[2].map(t=>`<span class="tag">${t}</span>`).join("")}</span><span class="flip-prompt">${flip.front}<span class="flip-icon" aria-hidden="true">↻</span></span></span><span class="drink-face drink-back"><strong class="drink-back-title">${x[0]}</strong><p class="drink-back-copy">${x[3]}</p><span class="flip-back"><span aria-hidden="true">↶</span>${flip.back}</span></span></span></button>`;}).join("")}</div></div>`;
   const carousel=document.querySelector(".drink-carousel");
