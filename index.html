@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#ede4d2" />
-  <title>Molly Tea｜Tea Mood · September Edition</title>
+  <title>Molly Tea｜Tea Mood · October Edition</title>
   <style>
     @font-face{font-family:"MiSans";src:url("assets/fonts/web/MiSans-Regular.woff2") format("woff2");font-weight:400;font-style:normal;font-display:swap}
     @font-face{font-family:"MiSans";src:url("assets/fonts/web/MiSans-Semibold.woff2") format("woff2");font-weight:600 900;font-style:normal;font-display:swap}
@@ -265,7 +265,7 @@
     <section class="shell">
       <div class="content">
         <section id="intro" class="intro">
-          <div id="introEyebrow" class="eyebrow">Tea Mood「9月限定更新」</div>
+          <div id="introEyebrow" class="eyebrow">Tea Mood「10月限定更新」</div>
           <h1 id="introTitle">今天你的心情，适合哪一杯？</h1>
           <p id="introSubtitle" class="subtitle">解锁你今天的 Molly Tea 风格</p>
           <div class="intro-visual"><img src="assets/intro/tea-mood-hero-no-border.jpg" alt="Molly Tea Mood" width="1600" height="1600" loading="eager" decoding="async"></div>
@@ -288,7 +288,7 @@
         <section id="result" class="result-page hidden">
           <div class="result-card">
             <div class="result-top">
-              <div id="resultLabel" class="result-kicker">September Tea Match</div>
+              <div id="resultLabel" class="result-kicker">October Tea Match</div>
               <div id="resultName" class="result-title">Floral Lover</div>
               <div id="resultCn" class="result-cn">花香治愈派</div>
             </div>
@@ -327,7 +327,7 @@
 /* ==================== 会员福利领取链接 ====================
    四种 Tea Mood 统一领取同一张会员优惠券。
 =========================================================== */
-const MEMBER_COUPON_URL="https://mollytea-th.m.sea.restosuite.ai/online-activity/subPackages/activity/freeGain/index?campaignId=2100116821616599044";
+const MEMBER_COUPON_URL="https://mollytea-th.m.sea.restosuite.ai/online-activity/subPackages/activity/freeGain/index?campaignId=2102719751880421380";
 const benefitLinks={F:MEMBER_COUPON_URL,C:MEMBER_COUPON_URL,S:MEMBER_COUPON_URL,D:MEMBER_COUPON_URL};
 
 const questionScores = [
@@ -340,13 +340,13 @@ const questionScores = [
 /* 每款饮品对四道题的偏好答案索引。先按匹配数量排序，同分时随机。 */
 const productAnswerAffinity={
   F:[[0,0,0,0],[2,0,2,2],[0,2,0,0],[0,2,0,1],[3,0,1,1]],
-  C:[[3,2,1,1],[0,0,1,1],[3,0,1,2],[0,2,1,1],[3,3,1,3]],
-  S:[[2,1,2,2],[2,1,2,0],[2,0,2,0],[1,0,3,2],[0,1,0,2],[2,3,2,3]],
-  D:[[1,3,3,3],[2,1,3,2],[3,2,0,3],[1,3,1,3],[1,0,1,3]]
+  C:[[3,2,1,1],[0,0,1,1],[3,0,1,2],[0,2,1,1],[3,3,1,3],[3,2,1,1]],
+  S:[[2,1,2,2],[2,1,2,0],[2,0,2,0],[1,0,3,2],[0,1,0,2],[2,3,2,3],[2,1,2,2]],
+  D:[[1,3,3,3],[2,1,3,2],[3,2,0,3],[1,3,1,3],[1,0,1,3],[1,3,1,3]]
 };
 
-/* 9月新品获得轻微上线优先权；答案相关性仍是主要排序依据。 */
-const productLaunchBoost={S:{5:.25}};
+/* 10月新品获得轻微上线优先权；答案相关性仍是主要排序依据。 */
+const productLaunchBoost={C:{5:.25},S:{6:.25},D:{5:.25}};
 
 const moodIllustrations={
   F:"assets/mood-illustrations/bloom-mood.webp",
@@ -471,12 +471,12 @@ th:{
 
 /* Today's Mood Ver.2 — confirmed direction from the project discussion. */
 Object.assign(i18n.zh,{
-  pageTitle:"Molly Tea｜Tea Mood「9月限定更新」",
-  introEyebrow:"Tea Mood「9月限定更新」",
+  pageTitle:"Molly Tea｜Tea Mood「10月限定更新」",
+  introEyebrow:"Tea Mood「10月限定更新」",
   introTitle:"今天你的心情，适合哪一杯？",
   introSubtitle:"解锁你今天的 Molly Tea 风格",
   introNote:"约 20 秒完成 · 4 种今日心情 · 可重复测试",
-  resultLabel:"September Tea Match",diagnosisTitle:"今日心情",recommendTitle:"今天推荐你喝",benefitTitle:"会员专属福利",
+  resultLabel:"October Tea Match",diagnosisTitle:"今日心情",recommendTitle:"今天推荐你喝",benefitTitle:"会员专属福利",
   benefitLink:"登录 Molly Tea 会员 · 领取 12% OFF 券",benefitPending:"登录 Molly Tea 会员 · 领取 12% OFF 券",restart:"换个心情，再测一次",
   questions:[
     {title:"如果今天能给自己一份奖励，你会选择……",options:["😴 睡到自然醒","🍀 好运一整天","🎫 一张立即出发的机票","💸 实现奶茶自由！"]},
@@ -492,10 +492,10 @@ Object.assign(i18n.zh,{
   }
 });
 Object.assign(i18n.en,{
-  pageTitle:"Molly Tea｜Tea Mood · September Edition",
-  introEyebrow:"Tea Mood · September Edition",introTitle:"WHAT’S YOUR MOLLY TEA MOOD TODAY?",
+  pageTitle:"Molly Tea｜Tea Mood · October Edition",
+  introEyebrow:"Tea Mood · October Edition",introTitle:"WHAT’S YOUR MOLLY TEA MOOD TODAY?",
   introSubtitle:"Discover Your Molly Tea Mood for Today.",
-  introNote:"About 20 seconds · 4 moods · Play anytime",resultLabel:"September Tea Match",diagnosisTitle:"Your Mood Today",recommendTitle:"Your Tea Match",benefitTitle:"Member Benefit",
+  introNote:"About 20 seconds · 4 moods · Play anytime",resultLabel:"October Tea Match",diagnosisTitle:"Your Mood Today",recommendTitle:"Your Tea Match",benefitTitle:"Member Benefit",
   benefitLink:"Sign in to Molly Tea · Claim 12% OFF",benefitPending:"Sign in to Molly Tea · Claim 12% OFF",restart:"Try Another Mood",
   questions:[
     {title:"If you could give yourself one reward today, what would you choose?",options:["😴 Wake up naturally","🍀 Good luck all day","🎫 A ticket to leave right away","💸 Unlimited milk tea!"]},
@@ -511,10 +511,10 @@ Object.assign(i18n.en,{
   }
 });
 Object.assign(i18n.th,{
-  pageTitle:"Molly Tea｜Tea Mood · ฉบับเดือนกันยายน",
-  introEyebrow:"Tea Mood · ฉบับเดือนกันยายน",introTitle:"WHAT’S YOUR MOLLY TEA MOOD TODAY?",
+  pageTitle:"Molly Tea｜Tea Mood · เดือนตุลาคม",
+  introEyebrow:"Tea Mood · เดือนตุลาคม",introTitle:"WHAT’S YOUR MOLLY TEA MOOD TODAY?",
   introSubtitle:"ค้นพบเมนู Molly Tea ที่ตรง Mood สำหรับคุณในวันนี้",
-  introNote:"ประมาณ 20 วินาที · 4 มู้ด · เล่นซ้ำได้ทุกวัน",resultLabel:"Tea Match ประจำเดือนกันยายน",diagnosisTitle:"มู้ดของคุณวันนี้",recommendTitle:"เมนูที่เหมาะกับคุณวันนี้",benefitTitle:"สิทธิพิเศษสำหรับสมาชิก",
+  introNote:"ประมาณ 20 วินาที · 4 มู้ด · เล่นซ้ำได้ทุกวัน",resultLabel:"Tea Match ประจำเดือนตุลาคม",diagnosisTitle:"มู้ดของคุณวันนี้",recommendTitle:"เมนูที่เหมาะกับคุณวันนี้",benefitTitle:"สิทธิพิเศษสำหรับสมาชิก",
   benefitLink:"เข้าสู่ระบบสมาชิก Molly Tea · รับคูปอง 12% OFF",benefitPending:"เข้าสู่ระบบสมาชิก Molly Tea · รับคูปอง 12% OFF",restart:"ลองเล่นใหม่อีกครั้ง",
   questions:[
     {title:"ถ้าวันนี้ให้รางวัลตัวเองได้หนึ่งอย่าง คุณจะเลือกอะไร…",options:["😴 นอนตื่นเองแบบไม่ต้องตั้งปลุก","🍀 โชคดีตลอดทั้งวัน","🎫 ตั๋วที่พร้อมออกเดินทางได้ทันที","💸 มีงบชานมไม่อั้น!"]},
@@ -544,7 +544,8 @@ const productCards={
       ["抹茶白兰咸酪乳","Matcha White Champaca Salted Cheese","มัทฉะแมกโนเลียเวลเวตตี้",["抹茶","兰香","浓郁清新"],"熟醇抹茶与白兰花香、咸酪乳交织，兼得浓郁与清新。","velvety-champaca-green-tea.webp"],
       ["一朵茉莉花","Snowy Jasmine","สโนวี่มะลิ",["茉莉云顶","碧根果","奶醇"],"茉莉云顶与升级茉莉奶白相遇，顶部碧根果碎增添酥脆口感。","snowy-jasmine.webp"],
       ["一朵栀子花","Snowy Gardenia","สโนวี่การ์ดีเนีย",["栀子云顶","碧根果","奶醇"],"升级栀子奶白搭配轻盈栀子云顶，顶部加入酥脆碧根果碎，花香、奶香与丰富口感层层展开。","snowy-gardenia.webp"],
-      ["起司咸酪乳小种","Tongmu Lapsang Salted Cheese","ชานมถงมู่ซอลท์ชีส",["小种红茶","咸酪乳","醇厚"],"桐木关小种红茶搭配咸酪乳、榛果芝士与可可粉，整体奶香醇厚。","tongmu-lapsang-salted-cheese.webp"]
+      ["起司咸酪乳小种","Tongmu Lapsang Salted Cheese","ชานมถงมู่ซอลท์ชีส",["小种红茶","咸酪乳","醇厚"],"桐木关小种红茶搭配咸酪乳、榛果芝士与可可粉，整体奶香醇厚。","tongmu-lapsang-salted-cheese.webp"],
+      ["牛油果酪酪", "Avocado Greek Yogurt Smoothie", "อะโวคาโดกรีกโยเกิร์ต", ["牛油果", "希腊酸奶", "绵密"], "顺滑牛油果奶昔融合醇厚希腊酸奶与细腻牛油果泥，奶香与微酸交织，口感绵密丰盈。", "avocado-greek-yogurt-smoothie.webp"]
     ],
     S:[
       ["茉莉杨枝甘露","Jasmine Mango Smoothie","ชามะลิสมูทตี้มะม่วง",["芒果","西柚","冰爽"],"绵密芒果冰沙加入新鲜芒果与爆汁西柚，融入顺滑椰乳。","jasmine-mango-smoothie.webp"],
@@ -552,14 +553,16 @@ const productCards={
       ["小兰花","White Champaca Coconut","ชาแมกโนเลียขาวมะพร้าว",["兰香","竹叶","椰香"],"兰香甘露融合泰国香椰水，竹叶香、幽兰茶香与椰香依次展开。","white-champaca-coconut.webp"],
       ["栀子冰茶","Gardenia Iced Tea","ชาการ์ดีเนีย",["栀子","嫩香","鲜灵"],"栀子经由六窨一提工艺，茶底凝调栀子花香与嫩香，尾调干净鲜灵","gardenia-iced-tea.webp"],
       ["针王冰茶","Premium Jasmine Iced Tea","ชามะลิพรีเมียม",["茉莉","毫香","鲜甜"],"高等级茉莉针王鲜灵甘爽，尾调带冰糖感微甜。","premium-jasmine-iced-tea.webp"],
-      ["针王芒芒椰","Premium Jasmine Mango Coconut Tea","ชาทรอปิคอลมะม่วงครีมโฟม",["芒果","椰香","凤梨青柠"],"茉莉针王融合芒果汁与椰皇水，加入凤梨青柠果肉浆，顶部覆盖轻盈奶霜，清甜果香、椰香与花香层层展开。","premium-jasmine-mango-coconut-tea.webp"]
+      ["针王芒芒椰","Premium Jasmine Mango Coconut Tea","ชาทรอปิคอลมะม่วงครีมโฟม",["芒果","椰香","凤梨青柠"],"茉莉针王融合芒果汁与椰皇水，加入凤梨青柠果肉浆，顶部覆盖轻盈奶霜，清甜果香、椰香与花香层层展开。","premium-jasmine-mango-coconut-tea.webp"],
+      ["牛油果甘露", "Avocado Mango Smoothie", "อะโวคาโดมะม่วง", ["牛油果", "芒果", "椰香"], "绵密牛油果冰沙搭配香甜芒果与爆汁西柚，融入顺滑椰乳，寒天与西米增添丰富口感。", "avocado-mango-smoothie.webp"]
     ],
     D:[
       ["针王苹果","Premium Jasmine Apple Milk Tea","ชานมมะลิแอปเปิล",["苹果","茉莉","馥郁"],"鲜榨苹果果香融入茉莉针王与牛乳，果香、花香和茶香层层展开。","premium-jasmine-apple-milk-tea.webp"],
       ["栀子金萱","Gardenia Oolong Milk Tea","ชานมอู่หลงการ์ดีเนีย",["栀子","金萱乌龙","奶香"],"金萱乌龙搭配清冽栀子毛峰茶，前调淡雅花香，中调茶感生津，尾调带细细奶香。","gardenia-jin-xuan.webp"],
       ["桐木关小种","Tongmu Lapsang Milk Tea","ชานมถงมู่",["花蜜香","桂圆香","茶韵"],"珍贵小种经创新摇青激发蜜桃桂圆香，茶汤呈温润琥珀色，茶韵悠长。","tongmu-lapsang-milk-tea.webp"],
       ["开心果茉莉椰","Pistachio Jasmine Coconut","พิสตาชิโอชามะลิมะพร้าว",["开心果","椰香","芝士"],"茉莉茶底与椰子水加入开心果芝士，清甜与香醇依次绽放。","pistachio-jasmine-coconut.webp"],
-      ["开心果小兰花","Pistachio White Champaca Coconut","พิสตาชิโอชาแมกโนเลียขาวมะพร้าว",["开心果","兰香","椰香"],"开心果芝士与兰香甘露、椰子水交织，前调奶香坚果香，中调清丽兰香，尾调椰香轻柔。","pistachio-white-champaca-coconut.webp"]
+      ["开心果小兰花","Pistachio White Champaca Coconut","พิสตาชิโอชาแมกโนเลียขาวมะพร้าว",["开心果","兰香","椰香"],"开心果芝士与兰香甘露、椰子水交织，前调奶香坚果香，中调清丽兰香，尾调椰香轻柔。","pistachio-white-champaca-coconut.webp"],
+      ["开心牛油果", "Pistachio Avocado Smoothie", "อะโวคาโดพิสตาชิโอ", ["牛油果", "开心果", "咸芝士"], "微酸希腊酸奶与丝滑牛油果奶昔相融，顶部覆盖咸香开心果芝士奶盖，三重风味层层展开。", "pistachio-avocado-smoothie.webp"]
     ]
   }
 };
@@ -617,6 +620,26 @@ const productDescriptions={
   }
 };
 // 暂不上架：保留完整产品资料与图片，研发确认文案后从此名单移除即可恢复展示。
+
+// October products: copy incorporates Thai review from 2026-09-30.
+productDescriptions.en["牛油果甘露"]="A creamy avocado smoothie with sweet mango and juicy pomelo, blended with coconut milk and finished with crystal boba and sago for added texture.";
+productDescriptions.th["牛油果甘露"]="สมูทตี้อะโวคาโดเนียนนุ่ม ผสานมะม่วงหอมหวาน ส้มโอฉ่ำ ๆ และกะทิหอมมัน เติมบุกใสและสาคูให้สัมผัสหลากหลายในทุกคำ";
+thTagOverrides["牛油果甘露"]={"牛油果": "อะโวคาโด", "芒果": "มะม่วง", "椰香": "หอมมะพร้าว"};
+enTag["牛油果"]="Avocado";
+thTag["牛油果"]="อะโวคาโด";
+productDescriptions.en["牛油果酪酪"]="A silky avocado smoothie blended with rich Greek yogurt and creamy avocado pulp, balancing milky richness with a gentle tang.";
+productDescriptions.th["牛油果酪酪"]="สมูทตี้อะโวคาโดเนียนละมุน ผสานกรีกโยเกิร์ตเข้มข้นและเนื้ออะโวคาโดบด ให้รสหอมมันอมเปรี้ยวอ่อน ๆ พร้อมสัมผัสเนียนนุ่มเต็มคำ";
+thTagOverrides["牛油果酪酪"]={"牛油果": "อะโวคาโด", "希腊酸奶": "กรีกโยเกิร์ต", "绵密": "เนียนนุ่ม"};
+enTag["牛油果"]="Avocado";
+enTag["希腊酸奶"]="Greek Yogurt";
+thTag["牛油果"]="อะโวคาโด";
+thTag["希腊酸奶"]="กรีกโยเกิร์ต";
+productDescriptions.en["开心牛油果"]="A silky avocado smoothie paired with tangy Greek yogurt and topped with lightly salted pistachio cheese foam, unfolding in creamy, nutty layers.";
+productDescriptions.th["开心牛油果"]="กรีกโยเกิร์ตเปรี้ยวละมุนผสานสมูทตี้อะโวคาโดเนียนนุ่ม ท็อปด้วยโฟมชีสพิสตาชิโอเค็มมัน ให้รสโยเกิร์ต อะโวคาโด และหอมกลิ่นถั่ว";
+thTagOverrides["开心牛油果"]={"牛油果": "อะโวคาโด", "开心果": "พิสตาชิโอ", "咸芝士": "ครีมชีสเค็ม"};
+enTag["牛油果"]="Avocado";
+thTag["牛油果"]="อะโวคาโด";
+
 const unpublishedProducts=new Set();
 const sourceProductCards=Object.fromEntries(
   Object.entries(productCards.zh).map(([m,items])=>[m,items.filter(x=>!unpublishedProducts.has(x[0]))])
@@ -658,7 +681,7 @@ else if(browserLang.startsWith("th")) detectedLang="th";
 let currentLang=supportedLangs.includes(savedLang)?savedLang:detectedLang;
 let current=0, answers=Array(4).fill(null), lastWinner=null, cardOrder=null, journeyTarget=null;
 const analyticsEndpoint="https://script.google.com/macros/s/AKfycbxGvDmMCAVIF2RkkL4qlrG_s-ofrTMiFnY4EOziYXvMwysS80HjQxLjcISpYrkJ_TJFhQ/exec";
-const quizVersion="2026-09-edition";
+const quizVersion="2026-10-edition";
 
 const intro=document.getElementById("intro"),quiz=document.getElementById("quiz"),result=document.getElementById("result");
 const questionArea=document.getElementById("questionArea"),stepText=document.getElementById("stepText"),progressBar=document.getElementById("progressBar");
@@ -799,3 +822,4 @@ applyLanguage(currentLang);
 </script>
 </body>
 </html>
+
